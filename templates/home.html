@@ -28,21 +28,31 @@
 <h2>Big Tech</h2>
 
 <div>
-    {% for image in images %}
+    {% for image in big_tech_images %}
         <div class="image-container">
-            <img src="{{ url_for('static', filename='images/' + image) }}" alt="graph">
+            <img src="{{ url_for('static', filename='images/big-tech/' + image) }}" alt="graph">
         </div>
     {% endfor %}
 </div>
 
+<h2> Misc </h2>
+<div>
+    {% for image in misc_images %}
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='images/misc/' + image) }}" alt="graph">
+        </div>
+    {% endfor %}
+</div>
 
 <h2> Cancelled </h2>
 <div>
-    {% for image in images %}
+    {% for image in cancelled_images %}
         <div class="image-container">
-            <img src="{{ url_for('static', filename='images/' + image) }}" alt="graph">
+            <img src="{{ url_for('static', filename='images/cancelled/' + image) }}" alt="graph">
         </div>
     {% endfor %}
 </div>
+
+
 </body>
 </html>
