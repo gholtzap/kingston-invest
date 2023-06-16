@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: #2f2f2f;
+            color: #f5f5f5;
+        }
+        h2 {
+            color: #ffffff;
+        }
+        .image-container {
+            width: 23%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: inline-block;
+            text-align: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Big Tech</h2>
+
+<div>
+    {% for image in images %}
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='images/' + image) }}" alt="graph">
+        </div>
+    {% endfor %}
+</div>
+
+
+<h2> Cancelled </h2>
+<div>
+    {% for image in images %}
+        <div class="image-container">
+            <img src="{{ url_for('static', filename='images/' + image) }}" alt="graph">
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
