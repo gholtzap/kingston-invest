@@ -41,7 +41,7 @@ def fetch_data_for_categories(tickers, category):
             for _ in tqdm(range(61)): 
                 time.sleep(1)
 
-big_tech_tickers = ['AAPL', 'TSLA', 'MSFT', 'SPOT', 'AMZN', 'GOOG','ORCL']
+big_tech_tickers = ['AAPL', 'TSLA', 'MSFT', 'SPOT', 'AMZN', 'GOOG','ORCL','NVDA','CSCO','META']
 cancelled_tickers = ['TGT','BUD']
 misc_tickers = ['CI','SCHW']
 

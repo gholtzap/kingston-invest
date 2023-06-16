@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    big_tech_names = os.listdir('./static/images/big-tech')
+    big_tech_names = os.listdir('./static/images/big_tech')
     cancelled_names = os.listdir('./static/images/cancelled')
     misc_names = os.listdir('./static/images/misc')
 
