@@ -5,9 +5,12 @@ import csv
 from tqdm import tqdm
 from dotenv import load_dotenv
 import randfacts
+import random
+from quote import quote
 
 load_dotenv()
 AV_API_KEY = os.getenv('AV_API_KEY')
+
 
 def fetch_and_save_data(ticker, category):
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol={ticker}&apikey={AV_API_KEY}'
@@ -17,15 +20,17 @@ def fetch_and_save_data(ticker, category):
     if 'Time Series (Daily)' not in data:
         print(f"Error fetching data for {ticker}: {data}")
         return
-    
-    csv_data = [[date, values['4. close']] for date, values in data['Time Series (Daily)'].items()]
+
+    csv_data = [[date, values['4. close']]
+                for date, values in data['Time Series (Daily)'].items()]
 
     with open(f'data/{category}/{ticker}.csv', 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['date', 'close'])
         writer.writerows(csv_data)
-    
+
     print(f"Data for {ticker} saved to {ticker}.csv")
+
 
 def fetch_data_for_categories(tickers, category):
     print(f'Fetching data for {category}')
@@ -37,18 +42,24 @@ def fetch_data_for_categories(tickers, category):
 
         if i < len(chunks) - 1:
             fact = randfacts.get_fact()
-            print(f"1 Minute Cooldown... \nFun fact of the minute: {fact}")
-            for _ in tqdm(range(61)): 
+            print(f"Fun fact of the minute: {fact}\n1 Minute Cooldown... \n")
+            for _ in tqdm(range(61)):
                 time.sleep(1)
 
-big_tech_tickers = ['AAPL', 'TSLA', 'MSFT', 'SPOT', 'AMZN', 'GOOG','ORCL','NVDA','CSCO','META']
-cancelled_tickers = ['TGT','BUD']
-misc_tickers = ['CI','SCHW']
+
+big_tech_tickers = ['AAPL', 'TSLA', 'MSFT', 'SPOT',
+                    'AMZN', 'GOOG', 'ORCL', 'NVDA', 'CSCO', 'META']
+cancelled_tickers = ['TGT', 'BUD']
+misc_tickers = ['CI', 'SCHW']
 
 fetch_data_for_categories(big_tech_tickers, 'big_tech')
-for _ in tqdm(range(61)): 
-                time.sleep(1)
+res = quote('Andrew Tate')
+print(f"\nDaily Andrew Tate quote: {res[random.randint(0, len(res))]['quote']}\n")
+for _ in tqdm(range(61)):
+    time.sleep(1)
 fetch_data_for_categories(cancelled_tickers, 'cancelled')
-for _ in tqdm(range(61)): 
-                time.sleep(1)
+res = quote('Warren Buffet')
+print(f"\nDaily Warren Buffet quote: {res[random.randint(0, len(res))]['quote']}\n")
+for _ in tqdm(range(61)):
+    time.sleep(1)
 fetch_data_for_categories(misc_tickers, 'misc')

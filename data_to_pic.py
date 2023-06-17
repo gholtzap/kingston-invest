@@ -2,6 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+import random
+from quote import quote
 
 sns.set_style("dark")
 sns.set_context("notebook")
@@ -27,6 +29,12 @@ def process_csv_files(csv_files, category):
 
 categories = ['big_tech', 'misc', 'cancelled']
 
+res = quote('Bill Gates')
+print(f"\nDaily Bill Gates quote: {res[random.randint(0, len(res))]['quote']}\n")
+
 for category in categories:
+    
     csv_files = [f for f in os.listdir(f'data/{category}') if f.endswith('.csv')]
     process_csv_files(csv_files, category)
+
+print("\n")

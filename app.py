@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask
 from flask import render_template
 
@@ -17,7 +16,7 @@ def home():
     misc_images = [image.replace('\\', '/') for image in misc_names]
 
     return render_template(
-        'home.html', 
+        'home.html',
         big_tech_images=big_tech_images,
         cancelled_images=cancelled_images,
         misc_images=misc_images
