@@ -31,9 +31,8 @@ def fetch_and_save_data(ticker, category):
 
     print(f"Data for {ticker} saved to {ticker}.csv")
 
-
 def fetch_data_for_categories(tickers, category):
-    print(f'Fetching data for {category}')
+    print(f'Fetching data for {category}\n')
     chunks = [tickers[i:i + 5] for i in range(0, len(tickers), 5)]
 
     for i, chunk in enumerate(chunks):
@@ -42,7 +41,7 @@ def fetch_data_for_categories(tickers, category):
 
         if i < len(chunks) - 1:
             fact = randfacts.get_fact()
-            print(f"Fun fact of the minute: {fact}\n1 Minute Cooldown... \n")
+            print(f"\nFun fact of the minute: {fact}\n\n1 Minute Cooldown... \n")
             for _ in tqdm(range(61)):
                 time.sleep(1)
 
@@ -53,12 +52,23 @@ cancelled_tickers = ['TGT', 'BUD']
 misc_tickers = ['CI', 'SCHW']
 
 fetch_data_for_categories(big_tech_tickers, 'big_tech')
+
 res = quote('Andrew Tate')
-print(f"\nDaily Andrew Tate quote: {res[random.randint(0, len(res))]['quote']}\n")
+try:
+    print(f"\nDaily Andrew Tate quote: {res[random.randint(0, len(res))]['quote']}\n")
+except IndexError:
+    print("\nNo quotes from the Top G available today.\n")
+    
 for _ in tqdm(range(61)):
     time.sleep(1)
 fetch_data_for_categories(cancelled_tickers, 'cancelled')
-res = quote('Warren Buffet')
+
+try:
+    res = quote('Warren Buffet')
+except IndexError:
+    print("\nNo quotes from Warren Buffet available today.\n")
+
+
 print(f"\nDaily Warren Buffet quote: {res[random.randint(0, len(res))]['quote']}\n")
 for _ in tqdm(range(61)):
     time.sleep(1)
