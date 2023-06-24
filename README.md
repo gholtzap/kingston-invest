@@ -1,4 +1,4 @@
-# Quick Investing Visualization Tool
+# Kingston Investment Tool
 
 ## Note: Currently in development. This version is not applicable to the average user (yet!).
 
