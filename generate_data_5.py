@@ -47,7 +47,7 @@ def fetch_data_for_categories(tickers, category):
 
 
 big_tech_tickers = ['AAPL', 'TSLA', 'MSFT', 'SPOT',
-                    'AMZN', 'GOOG', 'ORCL', 'NVDA', 'CSCO', 'META']
+                    'AMZN', 'GOOG', 'ORCL', 'NVDA', 'CSCO', 'META','INTU','ADBE']
 cancelled_tickers = ['TGT', 'BUD']
 misc_tickers = ['CI', 'SCHW']
 

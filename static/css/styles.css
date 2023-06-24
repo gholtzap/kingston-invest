@@ -1,11 +1,14 @@
 body {
-    background-color: #2f2f2f;
-    color: #f5f5f5;
+    background-color: #121111;
+    font-family: 'Poppins', sans-serif;
+    text-align:center
 }
 
 h2 {
     color: #ffffff;
 }
+
+
 
 .image-container {
     width: 23%;

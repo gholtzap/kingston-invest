@@ -22,8 +22,14 @@ def process_csv_files(csv_files, category):
             color = sns.color_palette("flare")[i % len(sns.color_palette("flare"))] 
             fig, ax = plt.subplots(figsize=(10, 6))
             ax.plot(data['close'], color=color, linewidth=2.0) 
-            ax.fill_between(data.index, data['close'], color=color, alpha=0.1) 
-            ax.set_title(f'{csv_file[:-4]} (Last 6 Months)', color='white',fontsize=30) 
+            ax.fill_between(data.index, data['close'], color=color, alpha=0.1)
+            
+            min_close = data['close'].min()
+            max_close = data['close'].max()
+            padding = (max_close - min_close) * 0.1
+            ax.set_ylim([min_close - padding, max_close + padding])
+            
+            ax.set_title(f'{csv_file[:-4]} (Last 6 Months)', color='white', fontsize=30) 
             ax.set_xlabel('Date', color='white')  
             ax.set_ylabel('Closing Price', color='white') 
             ax.grid(True, linewidth=0.5, color='#d3d3d3', linestyle='-') 
@@ -32,6 +38,7 @@ def process_csv_files(csv_files, category):
             plt.savefig(os.path.join(images_dir, f'{csv_file[:-4]}.png'), bbox_inches='tight', facecolor=fig.get_facecolor())
             print(f'Saved {csv_file[:-4]}.png to {images_dir}')
             plt.close(fig)
+
 
 categories = ['big_tech', 'misc', 'cancelled']
 

@@ -1,12 +1,14 @@
 import os
-from flask import Flask
-from flask import render_template
+from flask import Flask,render_template
 
 app = Flask(__name__)
 
 
+tickers = []
+
 @app.route('/')
 def home():
+
     big_tech_names = os.listdir('./static/images/big_tech')
     cancelled_names = os.listdir('./static/images/cancelled')
     misc_names = os.listdir('./static/images/misc')
@@ -19,9 +21,8 @@ def home():
         'home.html',
         big_tech_images=big_tech_images,
         cancelled_images=cancelled_images,
-        misc_images=misc_images
+        misc_images=misc_images,
     )
-
 
 if __name__ == '__main__':
     app.run(debug=True)

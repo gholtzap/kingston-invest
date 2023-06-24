@@ -4,3 +4,4 @@
 *.bat
 
 __pycache__/*
+performance/*
