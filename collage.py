@@ -37,4 +37,4 @@ border_size = 200
 border_color = 'black'
 new_image = ImageOps.expand(new_image, border=border_size, fill=border_color)
 
-new_image.save('collage.jpg')
+new_image.save('collage.png')
