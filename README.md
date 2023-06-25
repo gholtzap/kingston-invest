@@ -5,6 +5,7 @@
 ### This is an example of what the output currently looks like:
 
 ![example](https://raw.githubusercontent.com/gholtzap/kingston-invest/master/collage.png)
+<<<<<<< HEAD
 
 # Setup!
 ## Installing Stuffs:
@@ -32,3 +33,5 @@ Done!
 
 # Running the project
 ### After everything has been installed and set up, type `.\update.bat` to run the project. This script will generate all data + images, then set the collage as your wallpaper.
+=======
+>>>>>>> 37e452a43e39ee88b2e7e5ec148797f5dfda6599
