@@ -3,7 +3,6 @@ import os
 
 folders,images = ['static/images/big_tech', 'static/images/cancelled', 'static/images/misc'],[]
 
-# Load all images from the directories
 for folder in folders:
     for filename in os.listdir(folder):
         if filename.endswith('.png'): 
@@ -20,7 +19,6 @@ images_per_row = 4
 image_width = 833
 image_height = 529
 
-# Calculate the size of the output image
 num_of_images = len(images)
 num_of_rows = (num_of_images // images_per_row) + (1 if num_of_images % images_per_row != 0 else 0)
 total_width = image_width * images_per_row

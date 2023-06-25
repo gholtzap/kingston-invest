@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/ui-darkness/jquery-ui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/ui-darkness/jquery-ui.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl mb-10 text-center">Stock Tracker</h1>
+  
+      <form method="POST" class="bg-gray-800 shadow rounded p-6">
+        {{ form.hidden_tag() }}
+        <div class="mb-4">
+          {{ form.ticker.label(class="block text-sm font-medium text-gray-300") }}
+          {{ form.ticker(class="mt-1 p-2 block w-full border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", size=20) }}
+        </div>
+        <div class="mb-4">
+          {{ form.date.label(class="block text-sm font-medium text-gray-300") }}
+          {{ form.date(id='datepicker', class="mt-1 p-2 block w-full border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md", size=20) }}
+        </div>
+        {{ form.submit(class="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500") }}
+      </form>
+  
+      {% if plot_url %}
+      <h2 class="text-2xl mt-10 mb-4 text-center">Stock Performance</h2>
+      <img src="data:image/png;base64,{{ plot_url }}" class="mx-auto d-block">
+      {% endif %}
+    </div>
+  
+    <script src="{{ url_for('static', filename='datepicker.js') }}"></script>
+  </body>
+  
+</html>
