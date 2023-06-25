@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
+    {% extends "base.html" %}
+    {% block content %}
 <head>
-  <title>Stock Tracker</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <title>Kingston</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
 </head>
-<body class="bg-gray-900 text-white">
-  <div class="max-w-4xl mx-auto py-10">
-    <h1 class="text-3xl mb-10 text-center">Welcome to Stock Tracker</h1>
-    <div class="flex justify-center">
-      <a href="/tracker" class="py-2 px-4 mx-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Go to Tracker</a>
-      <a href="/collage" class="py-2 px-4 mx-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Go to Collage</a>
-    </div>
-  </div>
+<body>
+    
+    <div class="container">
+        <h1 class="title">Kingston Investment Tools</h1>
+
+
+        <h3 class="subtitle">Investing has never been easier.<h3>
+        <div class="form">
+          <a href="/tracker" class="submit-button">Tracker</a>
+          <a href="/collage" class="submit-button">Collage</a>
+        </div>
+      </div>
+      
+      
+      
 </body>
+{% endblock %}
 </html>

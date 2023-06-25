@@ -8,6 +8,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
 from alpha_vantage.timeseries import TimeSeries
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -47,13 +48,14 @@ class TickerForm(FlaskForm):
 
 def save_stock_data(ticker, date):
     ALPHA_VANTAGE_API_KEY = AV_API_KEY
-    ts = TimeSeries(key=ALPHA_VANTAGE_API_KEY, output_format='pandas')
-
-    data, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full')
-
-    data = data.loc[date:]
-
-    return data
+    try:
+        ts = TimeSeries(key=AV_API_KEY)
+        data, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full')
+        data = data.loc[date:]
+        return data
+    except ValueError:
+        print(f'{ticker} is an invalid ticker')
+        return None
 
 
 def plot_graph(data, ticker):
@@ -109,15 +111,19 @@ def tracker():
         date = form.date.data
 
         data = save_stock_data(ticker, date)
-        fig = plot_graph(data, ticker)
-
-        img = BytesIO()
-        fig.savefig(img, format='png', bbox_inches='tight',
-                    facecolor=fig.get_facecolor())
-        img.seek(0)
-        plot_url = base64.b64encode(img.getvalue()).decode()
-
+        if data is None:
+            return render_template('error.html', message=f'An error occurred when trying to get data for {ticker}')
+        else:
+            try:
+                fig = plot_graph(data, ticker)
+            except TypeError as e:
+                return render_template('error.html', message=f'An error occurred when trying to plot data: {str(e)}')
     return render_template('tracker.html', form=form, plot_url=plot_url)
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 
 @app.route('/')

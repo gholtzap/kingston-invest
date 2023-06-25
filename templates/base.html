@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <a href="/" class="logo">Kingston Investment Tools</a>
+      <nav class="nav">
+        <a href="/tracker">Tracker</a>
+        <a href="/collage">Collage</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  {% block content %}
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,103 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    /* Light text color for dark mode */
+    background-color: #2C1F1F;
+    /* Dark orange color for the background */
+    line-height: 1.6;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+    text-align: center;
+}
+
+h2 {
+    color: #ffffff;
+}
+
+h1.title {
+    margin: 2em 0;
+    color: #FFA500;
+    /* Orange color for the title */
+    font-size: 2.5em;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    width: 60%;
+}
+
+.form .form-group label {
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+.form .form-group input {
+    padding: 0.5em;
+    border: 2px solid #f0f0f0;
+    /* Light border color for dark mode */
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #2C1F1F;
+    /* Dark orange color for the background */
+    color: #f0f0f0;
+    /* Light text color for dark mode */
+}
+
+.form .submit-button {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #FFA500;
+    /* Orange color for the submit button */
+    color: #2C1F1F;
+    /* Dark orange text color for the submit button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+}
+
+.form .submit-button:hover {
+    background-color: #FF4500;
+    /* Darker orange color for hover effect */
+}
+
+h2.subtitle {
+    color: #FFA500;
+    /* Orange color for the subtitle */
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
+
+.image-container {
+    width: 23%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}

@@ -1,29 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); 
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #000;
-    color: #fff; }
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #2c3e50;
+  background-color: #ecf0f1;
+  line-height: 1.6; }
 
-    form {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 8px; }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+    text-align: center; }
 
-      input {
-        background-color: #333;
-        border: none;
-        color: #fff; }
+    h1.title {
+      margin: 2em 0;
+      color: #3498db;
+      font-size: 2.5em; }
 
-        input::placeholder {
-          color: #aaa; }
+      .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2em; }
+        .form .form-group {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 1em;
+          width: 60%; }
+          .form .form-group label {
+            margin-bottom: 0.5em;
+            font-weight: 600; }
+            .form .form-group input {
+              padding: 0.5em;
+              border: 2px solid #2c3e50;
+              border-radius: 4px;
+              font-size: 1em; }
+        .form .submit-button {
+          padding: 0.5em 1em;
+          border: none;
+          border-radius: 4px;
+          background-color: #3498db;
+          color: #ecf0f1;
+          cursor: pointer;
+          transition: background-color 0.3s ease; }
+          .form .submit-button:hover {
+            background-color: #217dbb; }
 
-          button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer; }
+h2.subtitle {
+  color: #34495e;
+  font-size: 2em;
+  margin-bottom: 1em; }
 
-            button:hover {
-              background-color: #0056b3; }
+  .image {
+    max-width: 100%;
+    height: auto; }

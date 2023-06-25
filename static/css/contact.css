@@ -1,0 +1,21 @@
+.form .form-group textarea {
+    padding: 0.5em;
+    border: 2px solid #f0f0f0; /* Light border color for dark mode */
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #2C1F1F; /* Dark orange color for the background */
+    color: #f0f0f0; /* Light text color for dark mode */
+    height: 100px;
+    resize: vertical; /* Allows the user to resize the textarea vertically */
+  }
+  
+  .discord-link {
+    color: #FFA500; /* Orange color for the link */
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .discord-link:hover {
+    color: #FF4500; /* Darker orange color for hover effect */
+  }
+  

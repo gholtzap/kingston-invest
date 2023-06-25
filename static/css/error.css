@@ -1,0 +1,41 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    background-color: #2C1F1F;
+    line-height: 1.6;
+}
+
+.error {
+    align-items: center;
+    text-align:center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+    text-align: center;
+}
+
+h1.title {
+    margin: 2em 0;
+    color: #FFA500;
+    font-size: 2.5em;
+}
+
+button {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #FFA500;
+    color: #2C1F1F;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+}
+
+h2.subtitle {
+    color: #FFA500;
+    font-size: 2em;
+    margin-bottom: 1em;
+}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/error.css') }}">
+    <title>Error - KIT</title>
+</head>
+<body>
+    <div class="error">
+        <h1>Error</h1>
+        <p>{{ message }}</p>
+        <button onclick="location.href='/tracker'" type="button">Return to Tracker</button>
+    </div>
+</body>
+</html>

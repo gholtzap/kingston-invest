@@ -1,0 +1,34 @@
+.header {
+    width: 100%;
+    background-color: #2C1F1F; /* Dark orange color for the header */
+    padding: 1em 0;
+    box-sizing: border-box;
+  }
+  
+  .header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header .logo {
+    color: #FFA500; /* Orange color for the logo text */
+    font-size: 2em;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .header .nav {
+    display: flex;
+  }
+  
+  .header .nav a {
+    color: #f0f0f0; /* Light text color for nav links */
+    text-decoration: none;
+    margin-left: 1em;
+  }
+  
+  .header .nav a:hover {
+    color: #FFA500; /* Orange color for hover effect */
+  }
+  
