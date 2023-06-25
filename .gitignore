@@ -1,7 +1,5 @@
 .env
 *.env
 
-*.bat
-
 __pycache__/*
 performance/*

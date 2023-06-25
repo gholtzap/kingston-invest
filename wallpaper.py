@@ -6,7 +6,7 @@ import random
 SPI_SETDESKWALLPAPER = 20
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-WALLPAPER_PATH = os.path.join(script_dir, "collage.jpg")
+WALLPAPER_PATH = os.path.join(script_dir, "collage.png")
 
 if os.path.isfile(WALLPAPER_PATH):
     res = quote('Lincoln')
