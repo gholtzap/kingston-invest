@@ -1,15 +1,19 @@
 import os
-from flask import Flask, render_template
+
 from flask import Flask, render_template, request
+from flask_assets import Environment, Bundle
+
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+
 from alpha_vantage.timeseries import TimeSeries
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import matplotlib.dates as mdates
+
+import os
 import base64
 from io import BytesIO
 from dotenv import load_dotenv
@@ -24,6 +28,12 @@ tickers = []
 sns.set_context("notebook")
 
 app = Flask(__name__)
+assets = Environment(app)
+assets.load_path = ['static/css']
+
+scss = Bundle('styles.scss', filters='pyscss', output='styles.css')
+assets.register('scss_all', scss)
+scss.build()
 
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
