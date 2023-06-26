@@ -9,18 +9,28 @@
 
 </head>
 <body>
+
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <h3 class="animate-charcter"> Kingston Investment Tools</h3>
+          </div>
+        </div>
+      </div>
     
     <div class="container">
-        <h1 class="title">Kingston Investment Tools</h1>
-
-
         <h3 class="subtitle">Investing has never been easier.<h3>
         <div class="form">
           <a href="/tracker" class="submit-button">Tracker</a>
           <a href="/collage" class="submit-button">Collage</a>
         </div>
       </div>
-      
+      <script>
+        gsap.fromTo('.title', 
+          {backgroundPosition: "-500%"}, 
+          {backgroundPosition: "500%", duration: 2, repeat: -1, ease: "linear"}
+        );
+      </script>
       
       
 </body>

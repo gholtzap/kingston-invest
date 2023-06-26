@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+    {% extends "base.html" %}
+    {% block content %}
 <head>
   <title>Kingston Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -8,12 +10,9 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/tracker.css') }}">
-
+    
 </head>
 <body>
-<div class="return">
-    <a href="/" class="submit-button">Return Home</a>
-</div>
   <div class="container">
     <h1 class="title">Stock Tracker</h1>
     <form method="POST" class="form">
@@ -35,4 +34,5 @@
   </div>
   <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
 </body>
+{% endblock %}
 </html>

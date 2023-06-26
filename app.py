@@ -47,7 +47,6 @@ class TickerForm(FlaskForm):
 
 
 def save_stock_data(ticker, date):
-    ALPHA_VANTAGE_API_KEY = AV_API_KEY
     try:
         ts = TimeSeries(key=AV_API_KEY)
         data, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full')

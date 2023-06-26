@@ -2,7 +2,7 @@
 
 ## Note: Currently in development. This version is not applicable to the average user (yet!). If you know what you're doing, then feel free to test it!
 
-### This is an example of what the output currently looks like:
+### Example `wallpaper.png` after running `.\update.bat`:
 
 ![example](https://raw.githubusercontent.com/gholtzap/kingston-invest/master/collage.png)
 

@@ -1,21 +1,106 @@
-.form .form-group textarea {
-    padding: 0.5em;
-    border: 2px solid #f0f0f0; /* Light border color for dark mode */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0;
+    background-color: #2C1F1F;
+    line-height: 1.6;
+    opacity: 0;
+    animation: contentFadeIn 1s 0.5s forwards;
+}
+
+
+h3 {
+    margin-bottom: 100px;
+    color: #ffdea0;
+    font-size: 1.5em;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+    text-align: center;
+}
+
+
+.title {
+    margin-top: 100px;
+    margin-bottom: 0px;
+    font-size: 2.5em;
+    color: #FFA500;
+    position: relative;
+    background: -webkit-linear-gradient(left, #FFA500, #FFA500, #FFA500);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0% {
+        background-position: -500%;
+    }
+    100% {
+        background-position: 500%;
+    }
+}
+
+@keyframes contentFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 2em;
+    gap: 1em;
+}
+
+.submit-button {
+    padding: 0.5em 1em;
+    border: none;
     border-radius: 4px;
-    font-size: 1em;
-    background-color: #2C1F1F; /* Dark orange color for the background */
-    color: #f0f0f0; /* Light text color for dark mode */
-    height: 100px;
-    resize: vertical; /* Allows the user to resize the textarea vertically */
+    background-color: #FFA500;
+    color: #2C1F1F;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+}
+
+.submit-button:hover {
+    background-color: #FF4500;
+}
+
+.animate-charcter {
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    120deg,
+    #FFA500 0%,
+    #ffb62e 29%,
+    #ffc354 67%,
+    #ffd588 100%
+  );
+  margin-top:150px;
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 1.3s linear;
+  display: inline-block;
+      font-size: 50px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
   }
-  
-  .discord-link {
-    color: #FFA500; /* Orange color for the link */
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
-  .discord-link:hover {
-    color: #FF4500; /* Darker orange color for hover effect */
-  }
-  
+}

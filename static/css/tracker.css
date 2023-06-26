@@ -1,7 +1,7 @@
 body {
     font-family: 'Poppins', sans-serif;
-    color: #f0f0f0; /* Light text color for dark mode */
-    background-color: #2C1F1F; /* Dark orange color for the background */
+    color: #f0f0f0; 
+    background-color: #2C1F1F;
     line-height: 1.6;
   }
   
@@ -14,7 +14,7 @@ body {
   
   h1.title {
     margin: 2em 0;
-    color: #FFA500; /* Orange color for the title */
+    color: #FFA500; 
     font-size: 2.5em;
   }
   
@@ -39,30 +39,35 @@ body {
   
   .form .form-group input {
     padding: 0.5em;
-    border: 2px solid #f0f0f0; /* Light border color for dark mode */
+    border: 2px solid #f0f0f0;
     border-radius: 4px;
     font-size: 1em;
-    background-color: #2C1F1F; /* Dark orange color for the background */
-    color: #f0f0f0; /* Light text color for dark mode */
+    background-color: #2C1F1F; 
+    color: #f0f0f0; 
+    font-style:inherit;
+    font-weight:normal;
   }
   
   .form .submit-button {
-    padding: 0.5em 1em;
+    margin-top:30px;
+    padding: 0.6em 1.2em;
     border: none;
     border-radius: 4px;
-    background-color: #FFA500; /* Orange color for the submit button */
-    color: #2C1F1F; /* Dark orange text color for the submit button */
+    background-color: #FFA500;
+    color: #2C1F1F; 
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-family: inherit;
+    font-weight: bold;
+    font-size:18px;
   }
   
   .form .submit-button:hover {
-    background-color: #FF4500; /* Darker orange color for hover effect */
+    background-color: #FF4500; 
   }
   
   h2.subtitle {
-    color: #FFA500; /* Orange color for the subtitle */
+    color: #FFA500;
     font-size: 2em;
     margin-bottom: 1em;
   }
@@ -71,4 +76,4 @@ body {
     max-width: 100%;
     height: auto;
   }
-  
+
