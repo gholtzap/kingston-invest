@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from flask_assets import Environment, Bundle
 
 from flask_wtf import FlaskForm
+import urllib.parse
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
@@ -32,9 +33,6 @@ app = Flask(__name__)
 assets = Environment(app)
 assets.load_path = ['static/css']
 
-scss = Bundle('styles.scss', filters='pyscss', output='styles.css')
-assets.register('scss_all', scss)
-scss.build()
 
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -50,6 +48,12 @@ def save_stock_data(ticker, date):
     try:
         ts = TimeSeries(key=AV_API_KEY)
         data, meta_data = ts.get_daily_adjusted(symbol=ticker, outputsize='full')
+
+        data = pd.DataFrame.from_dict(data).T
+        data.index = pd.to_datetime(data.index)
+
+        data['4. close'] = pd.to_numeric(data['4. close'])
+
         data = data.loc[date:]
         return data
     except ValueError:
@@ -60,6 +64,9 @@ def save_stock_data(ticker, date):
 def plot_graph(data, ticker):
     with plt.style.context('dark_background'):
         color = sns.color_palette("flare")[0]
+
+        plt.switch_backend('Agg')
+
         fig, ax = plt.subplots(figsize=(10, 6))
 
         ax.plot(data['4. close'], color=color, linewidth=2.0)
@@ -78,7 +85,12 @@ def plot_graph(data, ticker):
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
         ax.tick_params(colors='white')
 
-        return fig
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        string = base64.b64encode(buf.read())
+
+        return urllib.parse.quote(string)
 
 
 @app.route('/collage')
@@ -114,7 +126,7 @@ def tracker():
             return render_template('error.html', message=f'An error occurred when trying to get data for {ticker}')
         else:
             try:
-                fig = plot_graph(data, ticker)
+                plot_url = plot_graph(data, ticker)
             except TypeError as e:
                 return render_template('error.html', message=f'An error occurred when trying to plot data: {str(e)}')
     return render_template('tracker.html', form=form, plot_url=plot_url)

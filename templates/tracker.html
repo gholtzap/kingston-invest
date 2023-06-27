@@ -29,7 +29,7 @@
     </form>
     {% if plot_url %}
     <h2 class="subtitle">Stock Performance</h2>
-    <img src="data:image/png;base64,{{ plot_url }}" class="image">
+    <img src="data:image/png;base64,{{ plot_url }}">
     {% endif %}
   </div>
   <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
