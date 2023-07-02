@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from flask_assets import Environment, Bundle
 
 from flask_wtf import FlaskForm
@@ -20,6 +20,10 @@ import base64
 from io import BytesIO
 from dotenv import load_dotenv
 
+
+from volatility.vt import calculate_vt, calculate_vt_and_graph,get_data
+
+
 app = Flask(__name__)
 
 load_dotenv()
@@ -29,7 +33,6 @@ tickers = []
 
 sns.set_context("notebook")
 
-app = Flask(__name__)
 assets = Environment(app)
 assets.load_path = ['static/css']
 
@@ -42,7 +45,7 @@ class TickerForm(FlaskForm):
     ticker = StringField('Ticker', validators=[DataRequired()])
     date = StringField('Date (YYYY-MM-DD)', validators=[DataRequired()])
     submit = SubmitField('Submit')
-
+    
 
 def save_stock_data(ticker, date):
     try:
@@ -131,6 +134,16 @@ def tracker():
                 return render_template('error.html', message=f'An error occurred when trying to plot data: {str(e)}')
     return render_template('tracker.html', form=form, plot_url=plot_url)
 
+@app.route('/vt', methods=['GET'])
+def get_vt():
+    symbol = request.args.get('symbol')
+    if symbol is None:
+        return render_template('vt.html')
+
+    data = get_data(symbol)
+    vt = calculate_vt_and_graph(symbol,data)
+
+    return render_template('vt.html', symbol=symbol, vt=vt)
 
 @app.route('/contact')
 def contact():

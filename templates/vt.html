@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/vt.css') }}">
+    <meta charset="UTF-8">
+    <title>Stock Volatility Calculator</title>
+</head>
+<body>
+    <h1>Stock Volatility Calculator</h1>
+    <form action="/vt" method="get">
+        <label for="symbol">Enter a ticker symbol:</label>
+        <input type="text" id="symbol" name="symbol" required>
+        <input type="submit" value="Calculate Volatility">
+    </form>
+    {% if vt %}
+    <p>The volatility for {{symbol}} over the past 6 months is {{vt|round(2)}}</p>
+    <img src="{{ url_for('static', filename='images/' + symbol + '.png') }}" alt="Volatility Graph">
+    {% endif %}
+</body>
+</html>

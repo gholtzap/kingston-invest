@@ -1,0 +1,79 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #f0f0f0; 
+    background-color: #2C1F1F;
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2em;
+    text-align: center;
+  }
+  
+  h1.title {
+    margin: 2em 0;
+    color: #FFA500; 
+    font-size: 2.5em;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2em;
+  }
+  
+  .form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+    width: 60%;
+  }
+  
+  .form .form-group label {
+    margin-bottom: 0.5em;
+    font-weight: 600;
+  }
+  
+  .form .form-group input {
+    padding: 0.5em;
+    border: 2px solid #f0f0f0;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #2C1F1F; 
+    color: #f0f0f0; 
+    font-style:inherit;
+    font-weight:normal;
+  }
+  
+  .form .submit-button {
+    margin-top:30px;
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 4px;
+    background-color: #FFA500;
+    color: #2C1F1F; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: inherit;
+    font-weight: bold;
+    font-size:18px;
+  }
+  
+  .form .submit-button:hover {
+    background-color: #FF4500; 
+  }
+  
+  h2.subtitle {
+    color: #FFA500;
+    font-size: 2em;
+    margin-bottom: 1em;
+  }
+  
+  .image {
+    max-width: 100%;
+    height: auto;
+  }
+
