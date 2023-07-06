@@ -4,12 +4,21 @@ import operator
 import os
 import pandas as pd
 import math
+import json
 
-funds = 100000
+
+with open("funds.json") as f:
+    funds_json = json.load(f)
+
+funds = funds_json['funds']
 
 print(f"\nINVEST.PY\n")
 
-pprint.pprint(stable_results)
+
+# IMPORTANT, CHANGE TO WHICHEVER STRAT YOU WANT
+DESIRED_STRATEGY = stable_results
+
+pprint.pprint(DESIRED_STRATEGY)
 
 
 def get_investment_plan(stocks, funds):
@@ -23,9 +32,7 @@ def get_investment_plan(stocks, funds):
     return sorted_investment_plan
 
 
-
-
-investment_plan = get_investment_plan(stable_results, funds)
+investment_plan = get_investment_plan(DESIRED_STRATEGY, funds)
 
 print(f"\nINVESTMENT PLAN BASED ON ${funds} FUNDS\n")
 
