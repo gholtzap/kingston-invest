@@ -1,8 +1,80 @@
 {
-    "Kingston": ["CI", "GOOG", "META", "MSFT", "AAPL", "AMZN", "CSCO"],
-    "Big Tech": ["AAPL", "MSFT", "GOOG", "ADBE", "META", "NVDA", "TSLA", "ORCL", "CSCO", "NFLX"],
-    "Gamer Index": ["ATVI", "EA", "TTWO", "SONY", "MSFT", "NTDOY", "RBLX", "U", "AMD", "NVDA", "GME", "TCEHY", "MNST"],
-    "White Boy Index": ["AAPL", "NKE", "HOG", "HD", "MSFT", "UAA", "BUD", "F", "TSLA", "GM", "DEO", "STZ", "TAP", "DKNG", "WWE", "DKS"],
-    "White Girl Index": ["AAPL", "LVMUY", "ADDYY", "LRLCY", "DEO", "DECK", "DIS", "EL", "META", "BBWI", "LULU", "NKE", "SBUX", "UAA", "ULTA", "VFC", "ETSY", "FIZZ", "GOOS", "NFLX", "SNAP", "TGT"]
-  }
-  
+  "Kingston": [
+    "CI",
+    "GOOG",
+    "META",
+    "MSFT",
+    "AAPL",
+    "AMZN",
+    "CSCO"
+  ],
+  "Big Tech": [
+    "AAPL",
+    "MSFT",
+    "GOOG",
+    "ADBE",
+    "META",
+    "NVDA",
+    "TSLA",
+    "ORCL",
+    "CSCO",
+    "NFLX"
+  ],
+  "Gamer Index": [
+    "ATVI",
+    "EA",
+    "TTWO",
+    "SONY",
+    "MSFT",
+    "NTDOY",
+    "RBLX",
+    "U",
+    "AMD",
+    "NVDA",
+    "GME",
+    "TCEHY",
+    "MNST"
+  ],
+  "WBI": [
+    "AAPL",
+    "NKE",
+    "HOG",
+    "HD",
+    "MSFT",
+    "UAA",
+    "BUD",
+    "F",
+    "TSLA",
+    "GM",
+    "DEO",
+    "STZ",
+    "TAP",
+    "DKNG",
+    "WWE",
+    "DKS"
+  ],
+  "WGI": [
+    "AAPL",
+    "LVMUY",
+    "ADDYY",
+    "LRLCY",
+    "DEO",
+    "DECK",
+    "DIS",
+    "EL",
+    "META",
+    "BBWI",
+    "LULU",
+    "NKE",
+    "SBUX",
+    "UAA",
+    "ULTA",
+    "VFC",
+    "ETSY",
+    "FIZZ",
+    "GOOS",
+    "NFLX",
+    "SNAP",
+    "TGT"
+  ]
+}
