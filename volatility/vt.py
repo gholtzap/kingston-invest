@@ -40,8 +40,23 @@ def calculate_vt_and_graph(symbol, data):
     df.sort_index(inplace=True)
 
     daily_returns = df['close'].pct_change().dropna()
-
-    volatility = daily_returns.std() * (252**0.5) 
+    
+    min_close = df['close'].min()
+    max_close = df['close'].max()
+    avg_close = df['close'].mean()
+    
+    price_changes = []
+    vt_vals = pd.DataFrame({
+        'Price Change' : []
+    })
+    
+    vt_vals['Price Change'] = df['close'].pct_change()
+    
+    std_dev = vt_vals['Price Change'].std()
+    max_std_dev = 0.1
+    volatility = min(std_dev / max_std_dev, 1.0)
+    print(f"VT VALS: {vt_vals}\nVOLATILITY : {volatility}")
+    #volatility = daily_returns.std() * (252**0.5) 
 
     with plt.style.context('dark_background'):  
         color = sns.color_palette("flare")[0] 
