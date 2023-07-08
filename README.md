@@ -11,6 +11,7 @@
 6. [Collage](#Collage)
 
 ## Introduction 
+Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents below lets you jump to all the different tools.
 
 ## Setup
 ### Installing Libraries:
@@ -31,9 +32,12 @@ The libraries required are:
 - pyScss
 - flask flask-wtf
 - flask-assets
+- yfinance
+- shutil
+- datetime
 
 Here's a command to install all of the above at once:<br>
-``pip install requests tqdm python-dotenv randfacts quote pandas matplotlib seaborn Pillow Flask pyScss flask-wtf flask-assets``
+``pip install requests tqdm python-dotenv randfacts quote pandas matplotlib seaborn Pillow Flask pyScss flask-wtf flask-assets yfinance shutil``
 <br>
 
 ### API Key
@@ -48,15 +52,19 @@ Done!
 After you have run `.\update.bat`, run `python app.py` to launch a local version of the webapp. Navigate to `locahost:5000` to see it.
 
 ## Strategies
+#### Description: <br>
+Here you can run strategies that I have formulated throughout the years. They are named accordingly.  <br>
+Instructions are found inside the strategies folder, read ``usage.md``.
 
 ## Index Maker
+#### Description: <br>
+Here you can create your own custom indices. Want to create the next SP500? Test it out here. <br>
+Instructions are found inside the index-maker folder, read ``usage.md``.
 
 ## Collage
 #### Description: <br>
 Generates a collage of all your favorite stocks and/or sets it as your desktop wallpaper.
 ![example](https://raw.githubusercontent.com/gholtzap/kingston-invest/master/collage.png)
-
-Note: The below steps can be skipped by just running ``.\update.bat``. This script does all the steps automatically.
 
 #### Step 1 : Generate Your Data
 
@@ -64,6 +72,6 @@ Type `.\update.bat` to gather & download all data. This script will generate all
 <br>
 
 #### Step 2 : Run wallpaper.py
-Run ``collage.py`` then ``wallpaper.py`` to set the collage as your wallpaper.
+Run  ``wallpaper.py`` to set the collage as your wallpaper.
 
 
