@@ -11,7 +11,7 @@
 6. [Collage](#Collage)
 
 ## Introduction 
-Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents below lets you jump to all the different tools.
+Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents above lets you jump to all the different tools.
 
 ## Setup
 ### Installing Libraries:
@@ -55,6 +55,16 @@ After you have run `.\update.bat`, run `python app.py` to launch a local version
 #### Description: <br>
 Here you can run strategies that I have formulated throughout the years. They are named accordingly.  <br>
 Instructions are found inside the strategies folder, read ``usage.md``.
+
+
+### Formulas, explained:
+#### Stable:
+Returns: List of 10 stocks to invest X $$$ in <br>
+I wanted a baseline, very stable formula essentially guaranteed to make money. I did this by implementing the following steps:
+1. Calculate how volatile a stock is-- how often it fluctuates up/down. Store this data somewhere.
+2. Use this data to determine the top 10 most stable long-term stocks, ranked by fluctuation levels
+3. Distribute money accordingly across tickers to maximize profit
+
 
 ## Index Maker
 #### Description: <br>
