@@ -2,16 +2,21 @@
 
 ## Note: Currently in development. This version is not applicable to the average user (yet!). If you know what you're doing, then feel free to test it!
 
-### Example `wallpaper.png` after running `.\update.bat`:
+# Table of Contents
+1. [Introduction](#Introduction)
+2. [Setup](#Setup)
+3. [Webapp](#Webapp)
+4. [Strategies](#Strategies)
+5. [Index Maker](#index-maker)
+6. [Collage](#Collage)
 
-![example](https://raw.githubusercontent.com/gholtzap/kingston-invest/master/collage.png)
+## Introduction 
 
-# Setup!
-## Installing Stuffs:
-
-### Automatic:
+## Setup
+### Installing Libraries:
+#### Automatic:
 Type `.\setup.bat` in your terminal. This script should install everything necessary.
-### Manual:
+#### Manual:
 The libraries required are:
 - requests
 - tqdm
@@ -27,26 +32,38 @@ The libraries required are:
 - flask flask-wtf
 - flask-assets
 
+Here's a command to install all of the above at once:<br>
+``pip install requests tqdm python-dotenv randfacts quote pandas matplotlib seaborn Pillow Flask pyScss flask-wtf flask-assets``
 <br>
 
-## API Key
-#### For this project, I use the Alpha Vantage API. They currently offer free API keys. Head over [here](https://www.alphavantage.co/support/#api-key) to claim your free key.
+### API Key
+For this project, I use the Alpha Vantage API. They currently offer free API keys. Head over [here](https://www.alphavantage.co/support/#api-key) to claim your free key.
 Once you have your API key, create a file called `.env` inside the project's root directory.
 Paste your API Key like this: `AV_API_KEY = "XXXXXXXXXXXXXXXXXX"`
 
 Done!
 <br>
 
-
-
-# Using this Project
-## Step 1: Generate your data
-After everything has been installed and set up, type `.\update.bat` to run the project. This script will generate all data + images.
-<br>
-
-Bonus: if you would like to set this data as your wallpaper, then run `wallpaper.py`
-<br>
-
-## Step 2: Running the Webapp
+## Web App
 After you have run `.\update.bat`, run `python app.py` to launch a local version of the webapp. Navigate to `locahost:5000` to see it.
+
+## Strategies
+
+## Index Maker
+
+## Collage
+#### Description: <br>
+Generates a collage of all your favorite stocks and/or sets it as your desktop wallpaper.
+![example](https://raw.githubusercontent.com/gholtzap/kingston-invest/master/collage.png)
+
+Note: The below steps can be skipped by just running ``.\update.bat``. This script does all the steps automatically.
+
+#### Step 1 : Generate Your Data
+
+Type `.\update.bat` to gather & download all data. This script will generate all data + images.
+<br>
+
+#### Step 2 : Run wallpaper.py
+Run ``collage.py`` then ``wallpaper.py`` to set the collage as your wallpaper.
+
 
