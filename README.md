@@ -8,7 +8,8 @@
 3. [Webapp](#Webapp)
 4. [Strategies](#Strategies)
 5. [Index Maker](#index-maker)
-6. [Collage](#Collage)
+6. [Timing](#Timing)
+7. [Collage](#Collage)
 
 ## Introduction 
 Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents above lets you jump to all the different tools.
@@ -71,6 +72,9 @@ I wanted a baseline, very stable formula essentially guaranteed to make money. I
 Here you can create your own custom indices. Want to create the next SP500? Test it out here. <br>
 Instructions are found inside the index-maker folder, read ``usage.md``.
 
+## Timing
+Determines if it's the right time or not to buy stocks you're interested in, using the 2Q formula.<br>
+Instructions are found inside the timing folder, read ``timing.py``.
 ## Collage
 #### Description: <br>
 Generates a collage of all your favorite stocks and/or sets it as your desktop wallpaper.
