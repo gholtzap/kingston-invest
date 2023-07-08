@@ -15,5 +15,8 @@ python -m pip install alpha_vantage
 python -m pip install pyScss
 python -m pip install flask flask-wtf
 python -m pip install flask-assets
+python -m pip install yfinance
+python -m pip install datetime
+python -m pip install shutil
 
 

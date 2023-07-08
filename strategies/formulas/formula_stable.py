@@ -16,7 +16,8 @@ def formula(ticker, filename):
     avg_price = data['Close'].mean()
 
     data['PctChange'] = data['Close'].pct_change()
-
+    
+    
     volatility = data['PctChange'].std() * (365 ** 0.5)
 
     score = 1 / volatility

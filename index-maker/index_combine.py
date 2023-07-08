@@ -11,6 +11,8 @@ def combine_indices():
 
     print("What indices should be combined? Available ones are: ", end="")
 
+    lower_case_data = {k.lower(): v for k, v in data.items()}
+
     for key in data:
         print(key, end=", ")
     print()
@@ -18,11 +20,11 @@ def combine_indices():
     i = 0
     while True:
         i += 1
-        added_index = input(f"Index {i} (type exit to cancel): ")
+        added_index = input(f"Index {i} (type exit to cancel): ").lower()  # converting user input to lower case
         if added_index == "exit":
             print(indeces_to_combine)
             break
-        indeces_to_combine.append(added_index)
+        indeces_to_combine.append([k for k in data.keys() if k.lower() == added_index][0])
 
     for i in range(len(indeces_to_combine)):
         combined_indices += data[indeces_to_combine[i]]
