@@ -1,11 +1,12 @@
-from formulas.formula_stable import results as stable_results
+from formulas.iman import results as iman_results
+from formulas.diwi import results as diwi_results
+from formulas.rk import results as rk_results
 import pprint
 import operator
 import os
 import pandas as pd
 import math
 import json
-
 
 with open("funds.json") as f:
     funds_json = json.load(f)
@@ -14,11 +15,11 @@ funds = funds_json['funds']
 
 print(f"\nINVEST.PY\n")
 
-
-# IMPORTANT, CHANGE TO WHICHEVER STRAT YOU WANT
-DESIRED_STRATEGY = stable_results
-
-pprint.pprint(DESIRED_STRATEGY)
+strategies = {
+    "Iman": iman_results,
+    "Diwi": diwi_results,
+    "RK": rk_results
+}
 
 
 def get_investment_plan(stocks, funds):
@@ -30,14 +31,6 @@ def get_investment_plan(stocks, funds):
         sorted(investment_plan.items(), key=operator.itemgetter(1), reverse=True))
 
     return sorted_investment_plan
-
-
-investment_plan = get_investment_plan(DESIRED_STRATEGY, funds)
-
-print(f"\nINVESTMENT PLAN BASED ON ${funds} FUNDS\n")
-
-for stock, investment in investment_plan.items():
-    print(f"Invest ${investment:.2f} in {stock}.")
 
 
 def backtest_investment_plan(investment_plan):
@@ -60,7 +53,17 @@ def backtest_investment_plan(investment_plan):
     return total_return
 
 
-total_return = backtest_investment_plan(investment_plan)
+for strategy_name, strategy_results in strategies.items():
+    print(f"\nTesting strategy: {strategy_name}")
+    pprint.pprint(strategy_results)
 
-print(
-    f"\nTotal return after 2 years: ${total_return:.2f}, which is a %{100 * (total_return/funds):.2f} return\n ")
+    investment_plan = get_investment_plan(strategy_results, funds)
+
+    print(f"\nINVESTMENT PLAN BASED ON ${funds} FUNDS\n")
+    for stock, investment in investment_plan.items():
+        print(f"Invest ${investment:.2f} in {stock}.")
+
+    total_return = backtest_investment_plan(investment_plan)
+
+    print(
+        f"\nTotal return after 2 years: ${total_return:.2f}, which is a %{100 * (total_return/funds):.2f} return\n")

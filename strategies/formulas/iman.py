@@ -3,7 +3,7 @@ import pandas as pd
 import pprint
 from generate_data import tickers
 
-print(f"\nFORMULA.PY\n")
+print(f"\nRUNNING FORMULA_IMAN\n")
 
 totals = {}
 sma = {}
@@ -16,8 +16,7 @@ def formula(ticker, filename):
     avg_price = data['Close'].mean()
 
     data['PctChange'] = data['Close'].pct_change()
-    
-    
+
     volatility = data['PctChange'].std() * (365 ** 0.5)
 
     score = 1 / volatility

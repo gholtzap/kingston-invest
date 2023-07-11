@@ -19,7 +19,7 @@ for folder in folders:
     if folder not in tickers:
         shutil.rmtree(f'data/{folder}')
 
-start_date = datetime.now() - timedelta(days=2*365)
+start_date = datetime.now() - timedelta(days=5*365)
 end_date = datetime.now()
 
 if not os.path.exists('data'):
