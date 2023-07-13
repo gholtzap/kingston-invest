@@ -1,6 +1,7 @@
 from formulas.iman import results as iman_results
 from formulas.diwi import results as diwi_results
 from formulas.rk import results as rk_results
+from formulas.dy import results as dy_results
 import pprint
 import operator
 import os
@@ -18,7 +19,8 @@ print(f"\nINVEST.PY\n")
 strategies = {
     "Iman": iman_results,
     "Diwi": diwi_results,
-    "RK": rk_results
+    "RK": rk_results,
+    "DY":dy_results
 }
 
 
@@ -36,7 +38,7 @@ def get_investment_plan(stocks, funds):
 def backtest_investment_plan(investment_plan):
     total_return = 0
     for stock, investment in investment_plan.items():
-        filepath = os.path.join("data", stock, f"{stock}_2_year_data.csv")
+        filepath = os.path.join("data", stock, f"{stock}_5_year_data.csv")
         df = pd.read_csv(filepath)
 
         prices = df['Close']
@@ -53,17 +55,21 @@ def backtest_investment_plan(investment_plan):
     return total_return
 
 
+percentage_returns = {}
+
 for strategy_name, strategy_results in strategies.items():
-    print(f"\nTesting strategy: {strategy_name}")
-    pprint.pprint(strategy_results)
+    print(f"\nTesting strategy: {strategy_name}\n")
+    #pprint.pprint(strategy_results)
 
     investment_plan = get_investment_plan(strategy_results, funds)
 
-    print(f"\nINVESTMENT PLAN BASED ON ${funds} FUNDS\n")
+    print(f"\nINVESTMENT PLAN for {strategy_name} BASED ON ${funds} FUNDS\n")
     for stock, investment in investment_plan.items():
         print(f"Invest ${investment:.2f} in {stock}.")
 
     total_return = backtest_investment_plan(investment_plan)
-
+    percentage_returns[strategy_name] = str(round(total_return/100000,2))
     print(
-        f"\nTotal return after 2 years: ${total_return:.2f}, which is a %{100 * (total_return/funds):.2f} return\n")
+        f"\nTotal return using {strategy_name}: ${total_return:.2f}, which is a %{100 * (total_return/funds):.2f} return\n")
+
+print(f"###########################\n{percentage_returns}\n###########################")

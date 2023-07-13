@@ -52,4 +52,4 @@ for ticker in tickers:
         df_interval.to_csv(
             f'{ticker_dir}/{ticker}_{start_interval.date()}_{end_interval.date()}.csv')
 
-    df.to_csv(f'{ticker_dir}/{ticker}_2_year_data.csv')
+    df.to_csv(f'{ticker_dir}/{ticker}_5_year_data.csv')

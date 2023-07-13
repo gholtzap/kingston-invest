@@ -8,56 +8,50 @@ import time
 import yfinance as yf
 
 load_dotenv()
-print(f"\nFORMULA_RK.PY\n")
+print(f"\nDIVIDEND_YIELD.PY\n")
 
 totals = {}
 API_KEY = os.getenv("AV_API_KEY")
 
 
-def get_eps(ticker):
+def get_dividend_yield(ticker):
     ticker_info = yf.Ticker(ticker)
     try:
-        eps = ticker_info.info['trailingEps'] 
-        return eps
+        dy = ticker_info.info['dividendYield'] 
+        return dy
     except KeyError:
-        print(f"No EPS data for {ticker}.")
+        print(f"No dividend yield data for {ticker}.")
         return 0 
 
 
-def formula(ticker, filename):
+def dividend_yield(ticker, filename):
 
     data = pd.read_csv(f'data/{ticker}/{filename}')
 
-    price = data['Close'].iloc[-1]
-    eps = get_eps(ticker)
+    dy = get_dividend_yield(ticker)
 
-    if eps != 0:
-        pe_ratio = price / eps
-    else:
-        pe_ratio = float('inf')
+    totals[ticker] = dy
 
-    totals[ticker] = pe_ratio
-
-    return pe_ratio
+    return dy
 
 
 for ticker in tickers:
     ticker_dir = f'data/{ticker}'
     for filename in os.listdir(ticker_dir):
-        formula(ticker, filename)
+        dividend_yield(ticker, filename)
 
 num_tickers = 10
-top = sorted(totals.items(), key=lambda item: item[1])[:num_tickers]
+top = sorted(totals.items(), key=lambda item: item[1], reverse=True)[:num_tickers]
 
 top_tickers = [item[0] for item in top]
 
-sorted_values = sorted(totals.values())
+sorted_values = sorted(totals.values(), reverse=True)
 
 print('##################################')
 results = []
 for stock in top:
 
     name = stock[0]
-    pe_ratio = stock[1]
+    dy = stock[1]
 
-    results.append([name, pe_ratio])
+    results.append([name, dy])
