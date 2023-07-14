@@ -1,6 +1,11 @@
 import os
 import pandas as pd
 
+
+# Moving Average formula + backtest
+# Invests in stocks if 50 day moving avg is more than 200 day moving avg
+# Allocates money accordingly by golden ratio
+
 base_dir = "../data"
 
 all_data = pd.DataFrame()
