@@ -1,15 +1,25 @@
 import os
 import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
 import json
-
-# Moving Average formula + backtest
-# Invests in stocks if 50 day moving avg is more than 200 day moving avg
-# Allocates money accordingly by golden ratio
 
 base_dir = "../data"
 
 all_data = pd.DataFrame()
 dataframes = []
+
+def computeRSI (data, time_window):
+    diff = data.diff(1).dropna()        
+    up_chg = 0 * diff
+    down_chg = 0 * diff
+    up_chg[diff > 0] = diff[ diff>0 ]
+    down_chg[diff < 0] = diff[ diff < 0 ]
+    up_chg_avg   = up_chg.ewm(com=time_window-1 , min_periods=time_window).mean()
+    down_chg_avg = down_chg.ewm(com=time_window-1 , min_periods=time_window).mean()
+    rs = abs(up_chg_avg/down_chg_avg)
+    rsi = 100 - 100/(1+rs)
+    return rsi
 
 for ticker in os.listdir(base_dir):
     ticker_dir = os.path.join(base_dir, ticker)
@@ -17,8 +27,7 @@ for ticker in os.listdir(base_dir):
     if os.path.isdir(ticker_dir):
         df = pd.read_csv(f"{ticker_dir}/{ticker}_5_year_data.csv")
 
-        df["MA50"] = df["Close"].rolling(window=50).mean()
-        df["MA200"] = df["Close"].rolling(window=200).mean()
+        df["RSI"] = computeRSI(df["Close"], 14)
 
         df["Ticker"] = ticker
 
@@ -28,34 +37,27 @@ all_data = pd.concat(dataframes)
 
 all_data = all_data.dropna()
 
-selected_stocks = all_data[all_data["MA50"]
-                           > all_data["MA200"]]["Ticker"].unique()
+selected_stocks = all_data[(all_data["RSI"] < 30) & (all_data.groupby("Ticker")["RSI"].shift() > 30)]["Ticker"].unique()
 
-selected_stocks = sorted(selected_stocks, key=lambda x: all_data[all_data["Ticker"] == x].iloc[-1]
-                         ["MA50"] - all_data[all_data["Ticker"] == x].iloc[-1]["MA200"], reverse=True)[:10]
+print(f"Selected stocks: {selected_stocks}")
 
 budget = 10000
 
-total_ratio = sum([1.61803398875**i for i in range(10)])
+funds = {stock: budget / len(selected_stocks) for stock in selected_stocks}
 
-funds = {stock: budget * (1.61803398875**i / total_ratio)
-         for i, stock in enumerate(selected_stocks)}
-
-shares = {stock: funds[stock] / all_data[(
-    all_data["Ticker"] == stock)].iloc[0]["Close"] for stock in selected_stocks}
+shares = {stock: funds[stock] / all_data[(all_data["Ticker"] == stock)].iloc[0]["Close"] for stock in selected_stocks}
 
 portfolio_value = sum([shares[stock] * all_data[(all_data["Ticker"]
                       == stock)].iloc[-1]["Close"] for stock in selected_stocks])
 
 earned = portfolio_value/(budget/100.0)
 print(
-    f"Final value using MA formula: ${portfolio_value}, which is a %{earned:.2f} return")
+    f"Final value using RSI strategy: ${portfolio_value}, which is a %{earned:.2f} return")
 
 
-output = ['ma', earned, shares]
+output = ['rsi', earned, shares]
 
 output_dict = {output[0]: output[1], "Shares": output[2]}
-
 if not os.path.isfile('output.json'):
     # If not, create a new dictionary with the desired structure
     data = {

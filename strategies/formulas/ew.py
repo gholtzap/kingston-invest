@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
+import json
 
 base_dir = "../data"
 
@@ -54,3 +55,29 @@ portfolio_value = sum([shares[stock] * all_data[(all_data["Ticker"]
 earned = portfolio_value/(budget/100.0)
 print(
     f"Final value using slope formula: ${portfolio_value}, which is a %{earned:.2f} return")
+
+
+output = ['ew', earned, shares]
+
+output_dict = {output[0]: output[1], "Shares": output[2]}
+
+if not os.path.isfile('output.json'):
+    # If not, create a new dictionary with the desired structure
+    data = {
+        'Shares': {
+            output[0]: output[2]
+        },
+        output[0]: output[1]
+    }
+else:
+    # If it does, load the existing data
+    with open('output.json', 'r') as f:
+        data = json.load(f)
+
+    # Update the data dictionary
+    data[output[0]] = output[1]
+    data['Shares'][output[0]] = output[2]
+
+# Write the updated data back to the file with indentation
+with open('output.json', 'w') as f:
+    json.dump(data, f, indent=4)

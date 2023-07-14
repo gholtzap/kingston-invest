@@ -1,3 +1,5 @@
+**NOTE: I got IP banned from yfinance (oopsie daisies!) so I can't test the below usage. But I created a new usage guide just in case, it's labeled accordingly down below.**
+
 **Strategies Usage**
 
 1. Define amount of money in ``funds.json``
@@ -13,3 +15,9 @@
 *formula_stable.py* : formula for checking which tickers are the most stable
 
 *invest.py*: takes the data and calculates the most efficient use of your money using the specified formula
+
+
+**Second Usage Guide**
+
+1. Run ``test.sh`` (be patient, it takes a minute!)
+2. View results in ``formulas/output.json``
