@@ -55,26 +55,21 @@ After you have run `.\update.bat`, run `python app.py` to launch a local version
 ## Strategies
 #### Description: <br>
 Here you can run strategies that I have formulated throughout the years. They are named accordingly.  <br>
-Instructions are found inside the strategies folder, read ``usage.md``.
+Instructions are found inside the strategies folder, read ``strategies/usage.md``.
 
 
 ### Formulas, explained:
-#### Stable:
-Returns: List of 10 stocks to invest X $$$ in <br>
-I wanted a baseline, very stable formula essentially guaranteed to make money. I did this by implementing the following steps:
-1. Calculate how volatile a stock is-- how often it fluctuates up/down. Store this data somewhere.
-2. Use this data to determine the top 10 most stable long-term stocks, ranked by fluctuation levels
-3. Distribute money accordingly across tickers to maximize profit
+#### A description of each formula and how it works can be found inside strategies/usage.md.
 
 
 ## Index Maker
 #### Description: <br>
 Here you can create your own custom indices. Want to create the next SP500? Test it out here. <br>
-Instructions are found inside the index-maker folder, read ``usage.md``.
+Instructions are found inside the index-maker folder, read ``index-maker/usage.md``.
 
 ## Timing
 Determines if it's the right time or not to buy stocks you're interested in, using the 2Q formula.<br>
-Instructions are found inside the timing folder, read ``timing.py``.
+Instructions are found inside the timing folder, read ``timing/usage.md``.
 
 ## Collage
 #### Description: <br>
