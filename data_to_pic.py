@@ -42,13 +42,6 @@ def process_csv_files(csv_files, category):
 
 categories = ['big_tech', 'misc', 'cancelled']
 
-res = quote('Bill Gates')
-
-try:
-    print(f"\nDaily Bill Gates quote: {res[random.randint(0, len(res))]['quote']}\n")
-except IndexError:
-    print("\nNo quotes from Bill Gates available today.\n")
-
 for category in categories:
     csv_files = [f for f in os.listdir(f'data/{category}') if f.endswith('.csv')]
     process_csv_files(csv_files, category)
