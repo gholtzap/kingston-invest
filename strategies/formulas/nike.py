@@ -54,7 +54,7 @@ portfolio_value = sum([shares[stock] * all_data[(all_data["Ticker"]
 
 earned = portfolio_value/(budget/100.0)
 print(
-    f"Final value using slope formula: ${portfolio_value}, which is a %{earned:.2f} return")
+    f"Final value using nike formula: ${portfolio_value}, which is a %{earned:.2f} return")
 
 
 output = ['ew', earned, shares]
