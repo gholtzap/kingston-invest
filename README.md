@@ -3,13 +3,13 @@
 ## Note: Currently in development. This version is not applicable to the average user (yet!). If you know what you're doing, then feel free to test it!
 
 # Table of Contents
-1. [Introduction](#Introduction)
-2. [Setup](#Setup)
-3. [Webapp](#Webapp)
-4. [Strategies](#Strategies)
+1. [Introduction](#introduction)
+2. [Setup](#setup)
+3. [Web App](#web-app)
+4. [Strategies](#strategies)
 5. [Index Maker](#index-maker)
-6. [Timing](#Timing)
-7. [Collage](#Collage)
+6. [Timing](#timing)
+7. [Collage](#collage)
 
 ## Introduction 
 Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents above lets you jump to all the different tools.
@@ -75,6 +75,7 @@ Instructions are found inside the index-maker folder, read ``usage.md``.
 ## Timing
 Determines if it's the right time or not to buy stocks you're interested in, using the 2Q formula.<br>
 Instructions are found inside the timing folder, read ``timing.py``.
+
 ## Collage
 #### Description: <br>
 Generates a collage of all your favorite stocks and/or sets it as your desktop wallpaper.
