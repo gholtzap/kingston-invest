@@ -13,8 +13,6 @@ def calculate_score(data, window):
     score = 1 / volatility_last30
     return score
 
-
-
 for ticker in os.listdir(base_dir):
     ticker_dir = os.path.join(base_dir, ticker)
 
@@ -53,4 +51,17 @@ earned = portfolio_value/(budget/100.0)
 print(
     f"Final value using this strategy: ${portfolio_value}, which is a %{earned:.2f} return")
 
-output = ['iman',earned]
+json_file_path = 'output.json'
+
+with open(json_file_path, 'r') as file:
+    data = json.load(file)
+
+if "iman" in data["Shares"]:
+    data["Shares"]["iman"].update(shares)
+else:
+    data["Shares"]["iman"] = shares
+
+data["iman"] = earned
+
+with open(json_file_path, 'w') as file:
+    json.dump(data, file)

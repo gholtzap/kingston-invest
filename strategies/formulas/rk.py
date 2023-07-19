@@ -7,7 +7,7 @@ from tqdm import tqdm
 import time
 
 load_dotenv()
-API_KEY = os.getenv('FINNHUB_API_KEY')  # replace with your Finnhub API Key
+API_KEY = os.getenv('FINNHUB_API_KEY')
 base_dir = "../data"
 
 all_data = pd.DataFrame()
@@ -20,13 +20,11 @@ for ticker in os.listdir(base_dir):
         df = pd.read_csv(f"{ticker_dir}/{ticker}_5_year_data.csv")
         print(f"Fetching data for {ticker}")
 
-        # Get EPS data
         eps_response = requests.get(
             f"https://finnhub.io/api/v1/stock/earnings?symbol={ticker}&token={API_KEY}")
         eps_data = eps_response.json()
         print(eps_data)
 
-        # Get market price data
         market_cap_response = requests.get(
             f"https://finnhub.io/api/v1/quote?symbol={ticker}&token={API_KEY}")
         market_cap_data = market_cap_response.json()
@@ -35,7 +33,7 @@ for ticker in os.listdir(base_dir):
         for _ in tqdm(range(1)):
             time.sleep(1)
         
-        if eps_data and 'c' in market_cap_data:  # Check that the results are valid
+        if eps_data and 'c' in market_cap_data:  
             df["EPS"] = eps_data[0]['actual']
             df["Price"] = market_cap_data['c']
             df["PE_ratio"] = df["Price"] / df["EPS"]
@@ -43,7 +41,7 @@ for ticker in os.listdir(base_dir):
             dataframes.append(df)
             print(f"Dataframe for {ticker}: {df}")
 
-if dataframes:  # check if the list is not empty
+if dataframes:
     all_data = pd.concat(dataframes)
     all_data = all_data.dropna()
 else:
@@ -53,31 +51,26 @@ else:
 
 
 
-if eps_data and 'c' in market_cap_data:  # Check that the results are valid
-    # Add EPS to your df
+if eps_data and 'c' in market_cap_data: 
     df["EPS"] = eps_data[0]['actual']
     df = df.sort_values("Date")
     df = df.reset_index(drop=True)
 
-    # Compute PE_ratio for the first date
     df.loc[0, "PE_ratio"] = df.loc[0, "Close"] / df.loc[0, "EPS"]
     
-    # Compute PE_ratio for the last date
     df.loc[len(df) - 1, "PE_ratio"] = df.loc[len(df) - 1, "Close"] / df.loc[len(df) - 1, "EPS"]
 
     df["Ticker"] = ticker
     dataframes.append(df)
 
-# Continue with your original code here...
 
-if dataframes:  # check if the list is not empty
+if dataframes: 
     all_data = pd.concat(dataframes)
     all_data = all_data.dropna()
 else:
     print("No data to process.")
     exit()
 
-# Select stocks with the lowest P/E ratio five years ago
 selected_stocks = all_data.sort_values(
     by="PE_ratio").groupby("Ticker").first().sort_values(
     by="PE_ratio", ascending=True).index[:10]
@@ -106,7 +99,6 @@ output = ['rk', earned, shares]
 output_dict = {output[0]: output[1], "Shares": output[2]}
 
 if not os.path.isfile('output.json'):
-    # If not, create a new dictionary with the desired structure
     data = {
         'Shares': {
             output[0]: output[2]
@@ -114,14 +106,11 @@ if not os.path.isfile('output.json'):
         output[0]: output[1]
     }
 else:
-    # If it does, load the existing data
     with open('output.json', 'r') as f:
         data = json.load(f)
 
-    # Update the data dictionary
     data[output[0]] = output[1]
     data['Shares'][output[0]] = output[2]
 
-# Write the updated data back to the file with indentation
 with open('output.json', 'w') as f:
     json.dump(data, f, indent=4)
