@@ -3,13 +3,13 @@
 ## Note: Currently in development. This version is not applicable to the average user (yet!). If you know what you're doing, then feel free to test it!
 
 # Table of Contents
-1. [Introduction](#Introduction)
-2. [Setup](#Setup)
-3. [Webapp](#Webapp)
-4. [Strategies](#Strategies)
+1. [Introduction](#introduction)
+2. [Setup](#setup)
+3. [Web App](#web-app)
+4. [Strategies](#strategies)
 5. [Index Maker](#index-maker)
-6. [Timing](#Timing)
-7. [Collage](#Collage)
+6. [Timing](#timing)
+7. [Collage](#collage)
 
 ## Introduction 
 Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents above lets you jump to all the different tools.
@@ -55,26 +55,22 @@ After you have run `.\update.bat`, run `python app.py` to launch a local version
 ## Strategies
 #### Description: <br>
 Here you can run strategies that I have formulated throughout the years. They are named accordingly.  <br>
-Instructions are found inside the strategies folder, read ``usage.md``.
+Instructions are found inside the strategies folder, read ``strategies/usage.md``.
 
 
 ### Formulas, explained:
-#### Stable:
-Returns: List of 10 stocks to invest X $$$ in <br>
-I wanted a baseline, very stable formula essentially guaranteed to make money. I did this by implementing the following steps:
-1. Calculate how volatile a stock is-- how often it fluctuates up/down. Store this data somewhere.
-2. Use this data to determine the top 10 most stable long-term stocks, ranked by fluctuation levels
-3. Distribute money accordingly across tickers to maximize profit
+#### A description of each formula and how it works can be found inside strategies/usage.md.
 
 
 ## Index Maker
 #### Description: <br>
 Here you can create your own custom indices. Want to create the next SP500? Test it out here. <br>
-Instructions are found inside the index-maker folder, read ``usage.md``.
+Instructions are found inside the index-maker folder, read ``index-maker/usage.md``.
 
 ## Timing
 Determines if it's the right time or not to buy stocks you're interested in, using the 2Q formula.<br>
-Instructions are found inside the timing folder, read ``timing.py``.
+Instructions are found inside the timing folder, read ``timing/usage.md``.
+
 ## Collage
 #### Description: <br>
 Generates a collage of all your favorite stocks and/or sets it as your desktop wallpaper.
