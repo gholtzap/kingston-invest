@@ -1,63 +1,127 @@
 import os
 import pandas as pd
-import requests
 import json
-from generate_data import tickers
+import requests
 from dotenv import load_dotenv
+from tqdm import tqdm
 import time
-import yfinance as yf
 
 load_dotenv()
-print(f"\nFORMULA_RK.PY\n")
+API_KEY = os.getenv('FINNHUB_API_KEY')  # replace with your Finnhub API Key
+base_dir = "../data"
 
-totals = {}
-API_KEY = os.getenv("AV_API_KEY")
+all_data = pd.DataFrame()
+dataframes = []
+
+for ticker in os.listdir(base_dir):
+    ticker_dir = os.path.join(base_dir, ticker)
+
+    if os.path.isdir(ticker_dir):
+        df = pd.read_csv(f"{ticker_dir}/{ticker}_5_year_data.csv")
+        print(f"Fetching data for {ticker}")
+
+        # Get EPS data
+        eps_response = requests.get(
+            f"https://finnhub.io/api/v1/stock/earnings?symbol={ticker}&token={API_KEY}")
+        eps_data = eps_response.json()
+        print(eps_data)
+
+        # Get market price data
+        market_cap_response = requests.get(
+            f"https://finnhub.io/api/v1/quote?symbol={ticker}&token={API_KEY}")
+        market_cap_data = market_cap_response.json()
+        print(market_cap_data)
+
+        for _ in tqdm(range(1)):
+            time.sleep(1)
+        
+        if eps_data and 'c' in market_cap_data:  # Check that the results are valid
+            df["EPS"] = eps_data[0]['actual']
+            df["Price"] = market_cap_data['c']
+            df["PE_ratio"] = df["Price"] / df["EPS"]
+            df["Ticker"] = ticker
+            dataframes.append(df)
+            print(f"Dataframe for {ticker}: {df}")
+
+if dataframes:  # check if the list is not empty
+    all_data = pd.concat(dataframes)
+    all_data = all_data.dropna()
+else:
+    print("No data to process.")
+    exit()
 
 
-def get_eps(ticker):
-    ticker_info = yf.Ticker(ticker)
-    try:
-        eps = ticker_info.info['trailingEps'] 
-        return eps
-    except KeyError:
-        print(f"No EPS data for {ticker}.")
-        return 0 
 
 
-def formula(ticker, filename):
+if eps_data and 'c' in market_cap_data:  # Check that the results are valid
+    # Add EPS to your df
+    df["EPS"] = eps_data[0]['actual']
+    df = df.sort_values("Date")
+    df = df.reset_index(drop=True)
 
-    data = pd.read_csv(f'data/{ticker}/{filename}')
+    # Compute PE_ratio for the first date
+    df.loc[0, "PE_ratio"] = df.loc[0, "Close"] / df.loc[0, "EPS"]
+    
+    # Compute PE_ratio for the last date
+    df.loc[len(df) - 1, "PE_ratio"] = df.loc[len(df) - 1, "Close"] / df.loc[len(df) - 1, "EPS"]
 
-    price = data['Close'].iloc[-1]
-    eps = get_eps(ticker)
+    df["Ticker"] = ticker
+    dataframes.append(df)
 
-    if eps != 0:
-        pe_ratio = price / eps
-    else:
-        pe_ratio = float('inf')
+# Continue with your original code here...
 
-    totals[ticker] = pe_ratio
+if dataframes:  # check if the list is not empty
+    all_data = pd.concat(dataframes)
+    all_data = all_data.dropna()
+else:
+    print("No data to process.")
+    exit()
 
-    return pe_ratio
+# Select stocks with the lowest P/E ratio five years ago
+selected_stocks = all_data.sort_values(
+    by="PE_ratio").groupby("Ticker").first().sort_values(
+    by="PE_ratio", ascending=True).index[:10]
 
+budget = 10000
+total_ratio = sum([1.61803398875**i for i in range(10)])
 
-for ticker in tickers:
-    ticker_dir = f'data/{ticker}'
-    for filename in os.listdir(ticker_dir):
-        formula(ticker, filename)
+funds = {stock: budget * (1.61803398875**i / total_ratio)
+         for i, stock in enumerate(selected_stocks)}
 
-num_tickers = 10
-top = sorted(totals.items(), key=lambda item: item[1])[:num_tickers]
+initial_prices = {stock: all_data[(all_data["Ticker"]
+                                   == stock)].iloc[0]["Close"] for stock in selected_stocks}
 
-top_tickers = [item[0] for item in top]
+final_prices = {stock: all_data[(all_data["Ticker"]
+                                 == stock)].iloc[-1]["Close"] for stock in selected_stocks}
 
-sorted_values = sorted(totals.values())
+shares = {stock: funds[stock] / initial_prices[stock] for stock in selected_stocks}
 
-print('##################################')
-results = []
-for stock in top:
+portfolio_value = sum([shares[stock] * final_prices[stock] for stock in selected_stocks])
 
-    name = stock[0]
-    pe_ratio = stock[1]
+earned = portfolio_value / (budget / 100.0)
+print(
+    f"Final value using P/E ratio and EPS formula: ${portfolio_value}, which is a %{earned:.2f} return")
+output = ['rk', earned, shares]
 
-    results.append([name, pe_ratio])
+output_dict = {output[0]: output[1], "Shares": output[2]}
+
+if not os.path.isfile('output.json'):
+    # If not, create a new dictionary with the desired structure
+    data = {
+        'Shares': {
+            output[0]: output[2]
+        },
+        output[0]: output[1]
+    }
+else:
+    # If it does, load the existing data
+    with open('output.json', 'r') as f:
+        data = json.load(f)
+
+    # Update the data dictionary
+    data[output[0]] = output[1]
+    data['Shares'][output[0]] = output[2]
+
+# Write the updated data back to the file with indentation
+with open('output.json', 'w') as f:
+    json.dump(data, f, indent=4)
