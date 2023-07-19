@@ -3,4 +3,4 @@
 python rsi.py
 python ma.py
 python macd.py
-python ew.py
+python nike.py

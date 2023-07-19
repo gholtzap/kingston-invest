@@ -20,7 +20,6 @@ def get_data(tickers, start_date, end_date):
 def create_index(df):
     return df.sum(axis=1)
 
-# Define a list of pastel colors.
 pastel_colors = [
     "#ffb3ba", "#ffdfba", "#ffffba", "#baffc9", "#bae1ff",
     "#AEC6CF", "#F778A1", "#E2F0CB", "#FF6961", "#CB99C9",
@@ -28,7 +27,6 @@ pastel_colors = [
     "#AEC6CF", "#F778A1", "#E2F0CB", "#FF6961", "#CB99C9",
 ]
 
-# Define specific colors for the indices and the comparison tickers.
 index_color = "#FFB3BA"  # pastel red
 comparison_ticker_colors = {
     "^GSPC": "#FFFFBA",  # pastel yellow
@@ -39,7 +37,6 @@ def process_indices(start_date, end_date, category, comparison_tickers=["^GSPC",
     images_dir = f'static/images/{category}'
     os.makedirs(images_dir, exist_ok=True)
     
-    # Get the data for the comparison indices
     comparison_data = get_data(comparison_tickers, start_date, end_date)
     
     
@@ -79,7 +76,6 @@ def process_indices(start_date, end_date, category, comparison_tickers=["^GSPC",
             ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y')) 
             ax.tick_params(colors='white') 
 
-            # Generate list of the custom index stocks and their contributions
             contributions_sorted = contributions.sort_values(ascending=False)
             legend_text = "\n".join([f"{ticker}: {contributions_sorted[ticker]:.2f}%" for ticker in contributions_sorted.index])
             ax.text(1.02, 0.5, legend_text, transform=ax.transAxes, fontsize=10, verticalalignment='center')
