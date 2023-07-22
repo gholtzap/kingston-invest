@@ -64,6 +64,10 @@ else:
 # Append return to the top level of the dictionary
 data["diwi"] = earned
 
+# Sort the shares
+for strategy in data["Shares"]:
+    data["Shares"][strategy] = {k: v for k, v in sorted(data["Shares"][strategy].items(), key=lambda item: item[1])}
+
 # Write back to the file
 with open(json_file_path, 'w') as file:
-    json.dump(data, file)
+    json.dump(data, file, indent=4)

@@ -57,7 +57,7 @@ print(
     f"Final value using nike formula: ${portfolio_value}, which is a %{earned:.2f} return")
 
 
-output = ['ew', earned, shares]
+output = ['nike', earned, shares]
 
 output_dict = {output[0]: output[1], "Shares": output[2]}
 

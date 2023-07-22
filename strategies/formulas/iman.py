@@ -63,5 +63,9 @@ else:
 
 data["iman"] = earned
 
+for strategy in data["Shares"]:
+    data["Shares"][strategy] = {k: v for k, v in sorted(data["Shares"][strategy].items(), key=lambda item: item[1])}
+
+
 with open(json_file_path, 'w') as file:
     json.dump(data, file)

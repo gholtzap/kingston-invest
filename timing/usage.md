@@ -3,7 +3,7 @@
 How to use:
 
 1. Delcare your desired tickers in ``tickers.json``
-2. Run ``gem_data.py`` to generate data for those tickers
+2. Run ``gen_data.py`` to generate data for those tickers
 3. Run ``timing.py``
 
 The output will display which stocks you should or shouldn't buy from your list, ordered from best to worst.
