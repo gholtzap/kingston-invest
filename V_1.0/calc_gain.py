@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.colors import ListedColormap
 
-with open('backtest.json', 'r') as f:
+with open('input/backtest.json', 'r') as f:
     data = json.load(f)
 
 def calculate_gain(data, start_date_str, end_date_str):
@@ -73,12 +73,13 @@ def print_results(results):
 
 # Then use print_results function in your script like this
 
-result = calculate_gain(data, '2023-07-12', '2023-07-20')
-print_results(result)
+#result = calculate_gain(data, '2023-07-12', '2023-07-20')
+#print_results(result)
 
 plt.rcParams.update({'font.size': 20})
 
-def plot_results(results):
+def plot_results(results, date_info):
+    
     # Prepare pastel colormap
     pastel_colors = ListedColormap(['#FF6666', '#FFCC99', '#99FF99', '#66B3FF', '#c2c2f0', '#ffb3e6'])
 
@@ -88,6 +89,7 @@ def plot_results(results):
 
     # Create a new figure with a size based on the number of rows
     fig = plt.figure(figsize=(cols * 10, rows * 10))
+    fig.suptitle(f'Collage for {date_info}', fontsize=30)
 
     # Set the dark background style
     plt.style.use('dark_background')
@@ -129,7 +131,26 @@ def plot_results(results):
     ax.set_title('Total Money Made by Category (Percentage)')
 
     # Save the plot as an image
-    plt.tight_layout()
-    plt.savefig('collage_plot.png')
+    plt.tight_layout(rect=[0, 0, 1, 0.96])  # leave some space at the top for the suptitle
+    plt.savefig(f'collages/collage_{date_info.replace(" - ", "_")}.png')
 
-plot_results(result)
+#plot_results(result)
+
+
+# Load dates from JSON file
+with open('input/input_calc_gain.json', 'r') as f:
+    dates = json.load(f)
+
+# For each pair of dates in the list
+for i, date_pair in enumerate(dates, start=1):
+    # Calculate results
+    result = calculate_gain(data, date_pair['start'], date_pair['end'])
+    print_results(result)
+
+    # Plot results
+    date_info = f"{date_pair['start']} - {date_pair['end']}"
+    plot_results(result, date_info)
+
+    # Save the plot as an image with a unique name
+    #plt.tight_layout()
+    #plt.savefig(f'collages/calc_gain/collage_{i}.png')

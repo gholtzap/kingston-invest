@@ -12,6 +12,10 @@
     - iman
     - diwi
 
+<br>
+
+*More information on these formulas can be found inside ``strategies/formulas/usage.md``*
+
 
 - 5 year backtested return rates per formula:
 ```"rsi": 317.09090810438533,
@@ -23,4 +27,22 @@
     "diwi": 378.46822951901066  
 ```
 
-d
+**How to use:**
+
+**Showing performance of formulas from X date to X date:**
+1. Put the start and end dates you want to test in ``input/input_calc_gain.json``
+2. Run calc_gain.py
+
+<br>
+
+*Results will be placed in the ``collages`` folder*
+
+**Showing performance of formulas every week from X date to X date:**
+1. Put your desired start and end dates in ``input/input_results.json``
+
+2. Run results.py
+
+<br>
+
+*Results will be placed in the ``results`` folder*
+
