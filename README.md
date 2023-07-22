@@ -11,6 +11,9 @@
 6. [Timing](#timing)
 7. [Collage](#collage)
 
+# Versions
+1. [V_1.0](#v_1_0)
+
 ## Introduction 
 Hi! I'm getting into computational finance, and decided to create a repository full of miscellaneous tools that help me on the daily, so maybe they'll help you. I have a lot of docs on this project, so if you're confused just keep reading! The table of contents above lets you jump to all the different tools.
 
@@ -85,3 +88,13 @@ Type `.\update.bat` to gather & download all data. This script will generate all
 Run  ``wallpaper.py`` to set the collage as your wallpaper.
 
 
+
+
+## V_1_0
+
+### Date created : 7/20/2023
+### Testing started : 7/21/2023
+
+My first official version of my investing formulas! 
+
+*More information can be found in ``V_1.0/usage.md``*
