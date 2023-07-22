@@ -17,7 +17,7 @@
 *More information on these formulas can be found inside ``strategies/formulas/usage.md``*
 
 
-- 5 year backtested return rates per formula:
+- 5 year backtested return rates (%) per formula:
 ```"rsi": 317.09090810438533,
     "ma": 348.5292619810761,
     "macd": 316.37525157349677,
