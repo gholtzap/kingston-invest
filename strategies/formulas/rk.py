@@ -48,38 +48,15 @@ else:
     print("No data to process.")
     exit()
 
-
-
-
-if eps_data and 'c' in market_cap_data: 
-    df["EPS"] = eps_data[0]['actual']
-    df = df.sort_values("Date")
-    df = df.reset_index(drop=True)
-
-    df.loc[0, "PE_ratio"] = df.loc[0, "Close"] / df.loc[0, "EPS"]
-    
-    df.loc[len(df) - 1, "PE_ratio"] = df.loc[len(df) - 1, "Close"] / df.loc[len(df) - 1, "EPS"]
-
-    df["Ticker"] = ticker
-    dataframes.append(df)
-
-
-if dataframes: 
-    all_data = pd.concat(dataframes)
-    all_data = all_data.dropna()
-else:
-    print("No data to process.")
-    exit()
-
 selected_stocks = all_data.sort_values(
     by="PE_ratio").groupby("Ticker").first().sort_values(
-    by="PE_ratio", ascending=True).index[:10]
+    by="PE_ratio", ascending=True).index[:6]
 
 budget = 10000
-total_ratio = sum([1.61803398875**i for i in range(10)])
 
-funds = {stock: budget * (1.61803398875**i / total_ratio)
-         for i, stock in enumerate(selected_stocks)}
+# Define the allocation ratios
+funds_ratios = [0.38, 0.26, 0.12, 0.08, 0.08, 0.08]
+funds = {stock: ratio * budget for stock, ratio in zip(selected_stocks, funds_ratios)}
 
 initial_prices = {stock: all_data[(all_data["Ticker"]
                                    == stock)].iloc[0]["Close"] for stock in selected_stocks}

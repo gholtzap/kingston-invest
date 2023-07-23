@@ -25,14 +25,17 @@ for ticker in os.listdir(base_dir):
             score = calculate_score(df['Close'], 30)
             scores[ticker] = score
 
-num_tickers = 10
+num_tickers = 6
 top = sorted(scores.items(), key=lambda item: item[1], reverse=True)[:num_tickers]
 top_tickers = [item[0] for item in top]
 
 print(f"Selected stocks: {top_tickers}")
 
 budget = 10000
-funds = {stock: budget / len(top_tickers) for stock in top_tickers}
+
+# Define the allocation ratios
+funds_ratios = [0.38, 0.26, 0.12, 0.08, 0.08, 0.08]
+funds = {stock: ratio * budget for stock, ratio in zip(top_tickers, funds_ratios)}
 
 dataframes = []
 for ticker in top_tickers:
@@ -65,7 +68,6 @@ data["iman"] = earned
 
 for strategy in data["Shares"]:
     data["Shares"][strategy] = {k: v for k, v in sorted(data["Shares"][strategy].items(), key=lambda item: item[1])}
-
 
 with open(json_file_path, 'w') as file:
     json.dump(data, file)

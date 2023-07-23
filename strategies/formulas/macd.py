@@ -37,11 +37,13 @@ all_data = all_data.dropna()
 selected_stocks = all_data[((all_data["MACD"] > all_data["Signal"]) &
                             (all_data.groupby("Ticker")["MACD"].shift() < all_data.groupby("Ticker")["Signal"].shift()))]["Ticker"].unique()
 
+selected_stocks = sorted(selected_stocks)[:6] # Selects the first 6 stocks alphabetically
 print(f"Selected stocks: {selected_stocks}")
 
 budget = 10000
 
-funds = {stock: budget / len(selected_stocks) for stock in selected_stocks}
+funds_ratios = [0.38, 0.26, 0.12, 0.08, 0.08, 0.08]
+funds = {stock: ratio * budget for stock, ratio in zip(selected_stocks, funds_ratios)}
 
 shares = {stock: funds[stock] / all_data[(all_data["Ticker"] == stock)].iloc[0]["Close"] for stock in selected_stocks}
 
