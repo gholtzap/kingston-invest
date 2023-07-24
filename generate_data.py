@@ -5,12 +5,15 @@ import csv
 import json
 from tqdm import tqdm
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 load_dotenv()
 FINNHUB_API_KEY = os.getenv('FINNHUB_API_KEY')
 
-def fetch_and_save_data(ticker):
-    url = f'https://finnhub.io/api/v1/stock/candle?symbol={ticker}&resolution=D&count=100&token={FINNHUB_API_KEY}'
+def fetch_and_save_data(ticker, months):
+    from_timestamp = int((datetime.now() - timedelta(days=30*months)).timestamp())
+
+    url = f'https://finnhub.io/api/v1/stock/candle?symbol={ticker}&resolution=D&from={from_timestamp}&to={int(datetime.now().timestamp())}&token={FINNHUB_API_KEY}'
     r = requests.get(url)
     data = r.json()
 
@@ -18,26 +21,31 @@ def fetch_and_save_data(ticker):
         print(f"Error fetching data for {ticker}: {data}")
         return
 
-    csv_data = list(zip(data['t'], data['c']))
+    dates = [datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d') for ts in data['t']]
+    csv_data = list(zip(dates, data['c']))
 
-    with open(f'data/{ticker}.csv', 'w', newline='') as f:
+    dir_path = f'data/stocks-{months}m'
+    os.makedirs(dir_path, exist_ok=True)
+
+    with open(f'{dir_path}/{ticker}.csv', 'w', newline='') as f:
         writer = csv.writer(f)
-        writer.writerow(['time', 'close'])
+        writer.writerow(['date', 'close'])
         writer.writerows(csv_data)
 
     print(f"Data for {ticker} saved to {ticker}.csv")
 
 
-def fetch_data_for_tickers(tickers):
-    print(f'Fetching data for tickers\n')
+def fetch_data_for_tickers(tickers,months):
+    print(f'Fetching data for tickers over past {months} months\n')
 
     for ticker in tickers:
         for _ in tqdm(range(1)):
                 time.sleep(1)
-        fetch_and_save_data(ticker)
+        fetch_and_save_data(ticker,months)
 
 
 with open('tickers.json') as f:
     data = json.load(f)
 
-fetch_data_for_tickers(data['tickers'])
+fetch_data_for_tickers(data['tickers'],6)
+fetch_data_for_tickers(data['tickers'],12)

@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 import os
 
-folders,images = ['static/images/big_tech', 'static/images/cancelled', 'static/images/misc'],[]
+folders,images = ['static/images/'],[]
 
 for folder in folders:
     for filename in os.listdir(folder):
