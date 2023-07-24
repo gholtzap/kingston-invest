@@ -1,11 +1,11 @@
 from PIL import Image, ImageOps
 import os
 
-folders,images = ['static/images/'],[]
+folders, images = ['static/images/'], []
 
 for folder in folders:
     for filename in os.listdir(folder):
-        if filename.endswith('.png'): 
+        if filename.endswith('.png'):
             img = Image.open(os.path.join(folder, filename))
             if img is not None:
                 images.append(img)
@@ -20,7 +20,8 @@ image_width = 833
 image_height = 529
 
 num_of_images = len(images)
-num_of_rows = (num_of_images // images_per_row) + (1 if num_of_images % images_per_row != 0 else 0)
+num_of_rows = (num_of_images // images_per_row) + \
+    (1 if num_of_images % images_per_row != 0 else 0)
 total_width = image_width * images_per_row
 total_height = image_height * num_of_rows
 
