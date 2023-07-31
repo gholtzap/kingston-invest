@@ -8,6 +8,25 @@
     "AMZN",
     "CSCO"
   ],
+  "Kingston Composite" :[
+      "BRK-B",
+      "CI",
+      "UNH",
+      "AAPL",
+      "GOOGL",
+      "MSFT",
+      "ADBE",
+      "AMZN",
+      "CSCO",
+      "INTU",
+      "TSLA",
+      "META",
+      "ORCL",
+      "CRM",
+      "NFLX",
+      "AMD",
+      "NVDA"
+  ],
   "Big Tech": [
     "AAPL",
     "MSFT",
