@@ -37,13 +37,18 @@ def calculate_gain(data, start_date_str, end_date_str):
                     "money_made": sales - cost
                 }
 
+        percentage_gain = (final_value - initial_investment) / initial_investment * 100
+
         results[category]['total'] = {
             "initial_investment": initial_investment,
             "final_value": final_value,
-            "money_made": final_value - initial_investment
+            "money_made": final_value - initial_investment,
+            "percentage_gain_loss": percentage_gain
         }
 
+
     return results
+
 
 
 def print_results(results):
@@ -60,6 +65,22 @@ def print_results(results):
                 print(f"Start Price: ${info['start_price']:.2f}")
                 print(f"End Price: ${info['end_price']:.2f}")
                 print(f"Money Made: ${info['money_made']:.2f}")
+
+def calculate_combined_results(results):
+    combined_results = {
+        "initial_investment": 0,
+        "final_value": 0,
+        "money_made": 0
+    }
+
+    for category, stocks in results.items():
+        combined_results["initial_investment"] += stocks['total']["initial_investment"]
+        combined_results["final_value"] += stocks['total']["final_value"]
+        combined_results["money_made"] += stocks['total']["money_made"]
+
+    combined_results["percentage_gain_loss"] = (combined_results["final_value"] - combined_results["initial_investment"]) / combined_results["initial_investment"] * 100
+
+    return combined_results
 
 
 plt.rcParams.update({'font.size': 20})
@@ -115,9 +136,29 @@ def plot_results(results, date_info):
 with open('input/input_calc_gain.json', 'r') as f:
     dates = json.load(f)
 
+combined_results = {
+    "initial_investment": 0,
+    "final_value": 0,
+    "money_made": 0
+}
+
 for i, date_pair in enumerate(dates, start=1):
     result = calculate_gain(data, date_pair['start'], date_pair['end'])
     print_results(result)
 
     date_info = f"{date_pair['start']} - {date_pair['end']}"
     plot_results(result, date_info)
+    
+    # Add the results for this iteration to the combined totals
+    total_for_iteration = calculate_combined_results(result)
+    combined_results["initial_investment"] += total_for_iteration["initial_investment"]
+    combined_results["final_value"] += total_for_iteration["final_value"]
+    combined_results["money_made"] += total_for_iteration["money_made"]
+
+combined_results["percentage_gain_loss"] = (combined_results["final_value"] - combined_results["initial_investment"]) / combined_results["initial_investment"] * 100
+
+print("\n\nCombined Results:")
+print(f"Initial Investment: ${combined_results['initial_investment']:.2f}")
+print(f"Final Value: ${combined_results['final_value']:.2f}")
+print(f"Money Made: ${combined_results['money_made']:.2f}")
+print(f"Percentage Gain/Loss: {combined_results['percentage_gain_loss']:.2f}%")
