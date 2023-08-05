@@ -3,8 +3,8 @@
 
 **7/21/2023 - Present**
 <br>
-SP500 Return | -1.58%
-Kingston Return | 
+SP500 Return | -1.58% <br>
+Kingston Return | -0.28%
 
 <br>
 
@@ -12,7 +12,8 @@ Kingston Return |
 
 **7/21/2023 - 7/28/2023**
 <br>
-SP500 Return | 0.79%
+SP500 Return | 0.79% <br>
+Kingston Return | 1.92%
 
 <br>
 
@@ -22,7 +23,8 @@ SP500 Return | 0.79%
 
 **8/1/2023 - 8/6/2023**
 <br>
-SP500 Return | -2.33%
+SP500 Return | -2.33% <br>
+Kingston Return | -2.69%
 
 <br>
 
