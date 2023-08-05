@@ -1,0 +1,3 @@
+**Usage**
+
+- alpha.py : timing
