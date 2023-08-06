@@ -5,7 +5,7 @@
 # Table of Contents
 1. [Introduction](#introduction)
 2. [Setup](#setup)
-3. [Web App](#web-app)
+3. [API](#api)
 4. [Strategies](#strategies)
 5. [Index Maker](#index-maker)
 6. [Timing](#timing)
@@ -44,25 +44,44 @@ Here's a command to install all of the above at once:<br>
 ``pip install requests tqdm python-dotenv randfacts quote pandas matplotlib seaborn Pillow Flask pyScss flask-wtf flask-assets yfinance shutil``
 <br>
 
-### API Key
-For this project, I use the Alpha Vantage API. They currently offer free API keys. Head over [here](https://www.alphavantage.co/support/#api-key) to claim your free key.
-Once you have your API key, create a file called `.env` inside the project's root directory.
-Paste your API Key like this: `AV_API_KEY = "XXXXXXXXXXXXXXXXXX"`
+### API Keys
+- **PRE-REQUISITE: Create a file ``.env`` in the project's root directory. This is where your API keys will be stored.**
+- Finnhub
+    - I use the Finnhub API to retrieve financial data. [Get your free Finnhub API key here](https://finnhub.io/dashboard).
+    - Once you have your Finnhub API key, add it to `.env` in the following format:
+        - ``FINNHUB_API_KEY = "XXXXXXXXXXXXXXXXXXXXXXXX"``
+        
+        
+- Alpha Vantage
+    - I also use the Alpha Vantage API. They currently offer free API keys. Head over [here](https://www.alphavantage.co/support/#api-key) to claim your free key.
+    - Once you have your API key, add it to `.env` in the following format:
+        - `AV_API_KEY = "XXXXXXXXXXXXXXXXXX"`
 
 Done!
 <br>
 
-## Web App
-After you have run `.\update.bat`, run `python app.py` to launch a local version of the webapp. Navigate to `locahost:5000` to see it.
+## API
 
+This is where I host Kingston's flask API.
+<br>
+Simply run ``python api/run.py`` to start the local server.
+<br>
+From there, you can connect to the API via normal HTTP requests.
+<br>
+Please note that you will need your own Finnhub API key stored in ``.env`` to return data. This API is not for public use yet.
+
+### Endpoints:
+- List of all endpoints and cURL / Javascript examples can be found in ``api/usage.md``
 ## Strategies
 #### Description: <br>
-Here you can run strategies that I have formulated throughout the years. They are named accordingly.  <br>
+Here you can run strategies that I have formulated throughout the years. They are named accordingly. 
+ <br>
+
 Instructions are found inside the strategies folder, read ``strategies/usage.md``.
 
 
-### Formulas, explained:
-#### A description of each formula and how it works can be found inside strategies/usage.md.
+#### Formulas, explained:
+ A description of each formula and how it works can be found inside ``strategies/usage.md``.
 
 
 ## Index Maker

@@ -95,5 +95,14 @@
     "NFLX",
     "SNAP",
     "TGT"
+  ],
+  "TEST":[
+    "CVS",
+    "CI",
+    "UNH",
+    "AAPL",
+    "PG",
+    "BRK-B",
+    "JPM"
   ]
 }

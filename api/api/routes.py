@@ -3,7 +3,7 @@ from .alpha import calculate_decisions
 
 tickers_bp = Blueprint('tickers_bp', __name__)
 
-@tickers_bp.route('/tickers', methods=['POST'])
+@tickers_bp.route('/alpha', methods=['POST'])
 def tickers():
     data = request.json
     tickers = data.get('tickers')
