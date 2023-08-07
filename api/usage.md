@@ -56,4 +56,45 @@ After running this command, a flask API should be running on port 5000. Now you 
         ```
 
 - ``/beta``:
+    - Type: Post
+    - Accepts: JSON
+    - Example Requests:
+        - cURL:
+            ```
+            curl -X POST -H "Content-Type: application/json" \
+            -d '{"tickers":["AAPL", "GOOGL", "AMZN"], "index_name": "CustomIndex"}' \
+            -o output.png \
+            http://localhost:5000/beta
+
+            ```
+        - Javascript:
+            ```javascript
+            fetch('http://localhost:5000/beta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tickers: ["AAPL", "GOOGL", "AMZN"],
+                    index_name: "CustomIndex"
+                }),
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'output.png';
+                a.click();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+            ```
+    - Example Response:
+        ```        
+        (PNG of the graph)
+        ```
+- ``/gamma:``
     - WIP :)
