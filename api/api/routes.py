@@ -37,6 +37,6 @@ def beta():
 
     try:
         result = generate_index_and_image(data)
-        return result
+        return result, 200, {'ContentType': 'application/json'}
     except Exception as e:
         return {'error': str(e)}, 500
