@@ -13,12 +13,11 @@
         "INTU",
         "ADBE",
         "TGT",
-        "BUD",
         "CI",
         "PG",
         "JPM",
-        "CRM",
         "BRK-B",
-        "CVS"
+        "CVS",
+        "CRM"
     ]
 }
