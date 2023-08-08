@@ -37,6 +37,18 @@ def fetch_and_save_data(ticker, months):
 
     print(f"Data for {ticker} saved to {ticker}.csv")
 
+def remove_unwanted_tickers_files(tickers, months_list):
+    for months in months_list:
+        dir_path = f'data/stocks-{months}m'
+        if not os.path.exists(dir_path):
+            continue
+
+        for filename in os.listdir(dir_path):
+            ticker_filename = os.path.splitext(filename)[0]
+            if ticker_filename not in tickers:
+                os.remove(os.path.join(dir_path, filename))
+                print(f"Deleted data for {ticker_filename} as it does not exist in tickers.json")
+
 
 def fetch_data_for_tickers(tickers, months):
     print(f'Fetching data for tickers over past {months} months\n')
@@ -49,6 +61,9 @@ def fetch_data_for_tickers(tickers, months):
 
 with open('tickers.json') as f:
     data = json.load(f)
+with open('tickers.json') as f:
+    data = json.load(f)
 
 fetch_data_for_tickers(data['tickers'], 6)
 fetch_data_for_tickers(data['tickers'], 12)
+remove_unwanted_tickers_files(data['tickers'], [6, 12])

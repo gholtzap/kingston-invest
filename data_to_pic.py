@@ -5,9 +5,9 @@ import os
 import random
 import matplotlib.dates as mdates
 from quote import quote
+import json
 
 sns.set_context("notebook")
-
 
 def process_csv_files(csv_files):
     images_dir = f'static/images/'
@@ -42,8 +42,20 @@ def process_csv_files(csv_files):
             print(f'Saved {csv_file[:-4]}.png to {images_dir}')
             plt.close(fig)
 
+def remove_unwanted_images():
+    images_dir = 'static/images/'
+
+    with open('tickers.json') as f:
+        tickers_data = json.load(f)
+        tickers = tickers_data['tickers']
+
+    for filename in os.listdir(images_dir):
+        ticker_filename = os.path.splitext(filename)[0]
+        if ticker_filename not in tickers:
+            os.remove(os.path.join(images_dir, filename))
+            print(f"Deleted image for {ticker_filename} as it does not exist in tickers.json")
 
 csv_files = [f for f in os.listdir(f'data/stocks-12m/') if f.endswith('.csv')]
 process_csv_files(csv_files)
-
+remove_unwanted_images() 
 print("\n")
