@@ -3,6 +3,8 @@ import os
 import yfinance as yf
 import bt
 from datetime import datetime, timedelta
+import pprint
+
 
 directory = 'data/'
 initial_balance = 10000
@@ -47,22 +49,22 @@ def should_buy_stock(ticker_averages):
 
         change_needed = average - current_price
 
-        # Calculate the percentage change needed
         percentage_change_needed = (change_needed / current_price) * 100
 
         if current_price < average:
             decisions[ticker] = ('Buy', change_needed, percentage_change_needed, current_price, average)
         else:
-            decisions[ticker] = ('Do not buy', change_needed, percentage_change_needed, current_price, average)
+            decisions[ticker] = ('Don\'t buy', change_needed, percentage_change_needed, current_price, average)
 
     return decisions
 
 
 buy_decisions = should_buy_stock(averages)
 
-# Sort by absolute percentage change needed, in ascending order
-sorted_decisions = sorted(buy_decisions.items(), key=lambda x: (x[1][0] == 'Do not buy', abs(x[1][2])))
+sorted_decisions = sorted(buy_decisions.items(), key=lambda x: (x[1][0] == 'Don\'t buy', abs(x[1][2])))
+
+print("{:<10} {:<15} {:<20} {:<15}".format('Ticker', 'Decision', '% Change Needed', '$ Change Needed'))
+print("="*60)
 
 for ticker, (decision, change_needed, percentage_change_needed, current_price, average) in sorted_decisions:
-    print(
-        f'Ticker: {ticker}, Decision: {decision}, Change Needed: {change_needed}, Percentage Change Needed: {percentage_change_needed:.2f}%')
+    print("{:<10} {:<15} {:<20.2f} {:<15.2f}".format(ticker, decision, percentage_change_needed, change_needed))
