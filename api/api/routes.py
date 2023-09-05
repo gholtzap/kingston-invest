@@ -2,10 +2,13 @@ from flask import Blueprint, request, send_file, jsonify
 from werkzeug.security import generate_password_hash
 from pymongo import MongoClient
 
-from .alpha import calculate_decisions
-from .beta import generate_index_and_image
+from .alpha.alpha import calculate_decisions
+from .beta.beta import generate_index_and_image
 from .theta.register import register
 from .theta.login import login
+from .beta.save_index import save_user_index as core_save_index
+from .beta.save_index import fetch_saved_indexes
+
 
 import json
 import pandas as pd
@@ -52,3 +55,31 @@ def beta():
         return result, 200, {'ContentType': 'application/json'}
     except Exception as e:
         return {'error': str(e)}, 500
+    
+@tickers_bp.route('/saveIndex', methods=["POST"])
+def save_index():
+    data = request.json
+    if not data:
+        return {'error': 'No data provided'}, 400
+
+    try:
+        result = core_save_index(data)
+        return result
+ 
+    except Exception as e:
+        return {'error': str(e)}, 500
+
+
+
+@tickers_bp.route('/getSavedIndexes', methods=["GET"])
+def get_saved_indexes_endpoint():
+    username = request.args.get("username")
+    if not username:
+        return {'error': 'Username not provided'}, 400
+
+    try:
+        result = fetch_saved_indexes(username)
+        return result
+    except Exception as e:
+        return {'error': str(e)}, 500
+
