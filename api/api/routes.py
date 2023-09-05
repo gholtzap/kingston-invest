@@ -1,7 +1,11 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, send_file, jsonify
+from werkzeug.security import generate_password_hash
+from pymongo import MongoClient
 
 from .alpha import calculate_decisions
 from .beta import generate_index_and_image
+from .theta.register import register
+from .theta.login import login
 
 import json
 import pandas as pd
@@ -10,9 +14,17 @@ import os
 import seaborn as sns
 import matplotlib.dates as mdates
 import matplotlib
-from flask import send_file
 matplotlib.use('Agg')
 
+auth_bp = Blueprint('auth_bp', __name__)
+
+@auth_bp.route('/signup', methods=['POST'])
+def backend_signup():
+    return register()
+
+@auth_bp.route('/login', methods = ['POST'])
+def backend_login():
+    return login()
 
 tickers_bp = Blueprint('tickers_bp', __name__)
 
