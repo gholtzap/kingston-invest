@@ -1,5 +1,6 @@
 from flask import Blueprint, request, send_file, jsonify
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 
 from .alpha.alpha import calculate_decisions
@@ -8,6 +9,7 @@ from .theta.register import register
 from .theta.login import login
 from .beta.save_index import save_user_index as core_save_index
 from .beta.save_index import fetch_saved_indexes
+from .theta.update_profile import update_user_profile
 
 
 import json
@@ -83,3 +85,25 @@ def get_saved_indexes_endpoint():
     except Exception as e:
         return {'error': str(e)}, 500
 
+
+
+@auth_bp.route('/updateProfile', methods=['POST'])
+def update_profile():
+    # Assuming you have a method to authenticate the user and get their ID.
+    user_id = request.form.get("userId")
+    first_name = request.form.get("firstName")
+    last_name = request.form.get("lastName")
+
+    # Handle the profile picture upload
+    profile_picture = None
+    if 'profilePicture' in request.files:
+        file = request.files['profilePicture']
+        if file.filename != '':
+            filename = secure_filename(file.filename)
+            profile_picture = file.read()
+
+    try:
+        result = update_user_profile(user_id, first_name, last_name, profile_picture)
+        return result
+    except Exception as e:
+        return {'error': str(e)}, 500

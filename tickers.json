@@ -1,24 +1,25 @@
 {
-    "tickers": [
-        "AAPL",
-        "TSLA",
-        "MSFT",
-        "SPOT",
-        "AMZN",
-        "GOOG",
-        "ORCL",
-        "NVDA",
-        "CSCO",
-        "META",
-        "INTU",
-        "ADBE",
-        "TGT",
-        "CI",
-        "PG",
-        "JPM",
-        "BRK-B",
-        "CVS",
-        "CRM",
-        "UNH"
-    ]
+    "tickers": {
+        "AAPL": {"buy_price": 178.97},
+        "TSLA": {},
+        "MSFT": {},
+        "AMZN": {"buy_price": 120.08625},
+        "GOOG": {"buy_price": 111.25},
+        "ORCL": {},
+        "NVDA":{},
+        "META": {},
+        "INTU": {},
+        "ADBE": {},
+        "TGT": {"buy_price": 131.67},
+        "CI": {"buy_price": 268.85},
+        "PG": {},
+        "JPM": {},
+        "BRK-B": {},
+        "CVS":{"buy_price": 71.15714},
+        "CRM": {},
+        "UNH": {},
+        "NFLX": {},
+        "UBER":{}
+    }
+
 }

@@ -100,13 +100,12 @@ Generates a collage of all your favorite stocks and/or sets it as your desktop w
 
 #### Step 1 : Generate Your Data
 
+Define your tickers in `tickers.json`. Example: `"ADBE": {},`<br>
+You can also define the ticker as `"ADBE":{"buy_price": 171.15},` for example. This will place a horizontal red line at your buy price.
+
+#### Step 2 : Run the Script
 Type `.\update.bat` to gather & download all data. This script will generate all data + images.
 <br>
-
-#### Step 2 : Run wallpaper.py
-Run  ``wallpaper.py`` to set the collage as your wallpaper.
-
-
 
 
 ## V_1_0
