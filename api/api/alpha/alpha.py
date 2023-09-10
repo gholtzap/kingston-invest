@@ -16,8 +16,8 @@ finnhub_api_key = os.getenv('FINNHUB_API_KEY')
 finnhub_client = finnhub.Client(api_key=finnhub_api_key)
 
 
-def calculate_decisions(tickers):
-    start_date = datetime.now() - timedelta(days=2*365)
+def calculate_decisions(tickers, days_back=2*365):
+    start_date = datetime.now() - timedelta(days=days_back)
     end_date = datetime.now()
 
     stock_data = {}

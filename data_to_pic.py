@@ -40,12 +40,12 @@ def process_csv_files(csv_files):
             # If a buy_date is provided for the ticker, draw the vertical line
             if ticker in buy_details and "buy_price" in buy_details[ticker]:
                 buy_price = buy_details[ticker]["buy_price"]
-                ax.axhline(buy_price, color='red', linestyle='--', linewidth=3, label="Buy Price")
+                ax.axhline(buy_price, color='gold', linestyle='--', linewidth=3, label="Buy Price")
                 
                 # Get the date with the closest closing price to the buy_price
                 closest_date = data.iloc[(data['close'] - buy_price).abs().argsort()[:1]].index[0]
                 
-                ax.axvline(closest_date, color='lightblue', linestyle='--', linewidth=1.5, label="Buy Date")
+                ax.axvline(closest_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
                 ax.legend(loc="upper left", fontsize=10, facecolor="black")
 
 

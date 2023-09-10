@@ -10,6 +10,8 @@ from .theta.login import login
 from .beta.save_index import save_user_index as core_save_index
 from .beta.save_index import fetch_saved_indexes
 from .theta.update_profile import update_user_profile
+from .clients.portfolio import add_user_portfolio, fetch_user_portfolio, initialize_portfolio,add_stock_buy
+
 
 
 import json
@@ -107,3 +109,55 @@ def update_profile():
         return result
     except Exception as e:
         return {'error': str(e)}, 500
+
+
+@auth_bp.route('/addPortfolio', methods=['POST'])
+def add_portfolio():
+    data = request.json
+    username = data.get('username')
+    portfolio = data.get('portfolio')
+
+    if not username or not portfolio:
+        return {'error': 'Required fields missing'}, 400
+
+    return add_user_portfolio(username, portfolio)
+
+@auth_bp.route('/getPortfolio/<string:username>', methods=['GET'])
+def get_portfolio(username):
+    return jsonify(fetch_user_portfolio(username))
+
+@auth_bp.route('/initializePortfolio', methods=['POST'])
+def initialize_client_portfolio():
+    print(request.json)
+    data = request.json
+    if not data:
+        return {'error': 'No data received'}, 400
+    elif "username" not in data:
+        return {'error': 'Username missing'}, 400
+    elif "buys" not in data:
+        return {'error': 'Buys missing'}, 400
+    for buy in data.get("buys", []):
+        if not all(key in buy for key in ["ticker", "shares", "date"]):
+            return {'error': 'Some buy entries are missing required fields'}, 400
+
+    username = data.get('username')
+    holdings = data.get('holdings')  # holdings should be a list of dictionaries
+
+    if not username or not holdings:
+        return {'error': 'Required fields missing'}, 400
+
+    return initialize_portfolio(username, holdings)
+
+
+@auth_bp.route('/addStockBuy', methods=['POST'])
+def add_stock_buy_route():
+    data = request.json
+    username = data.get('username')
+    ticker = data.get('ticker')
+    shares = data.get('shares')
+    date = data.get('date')
+
+    if not username or not ticker or shares is None or not date:  # Shares can be 0 but not None
+        return {'error': 'Required fields missing'}, 400
+
+    return add_stock_buy(username, ticker, shares, date)

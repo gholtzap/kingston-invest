@@ -61,17 +61,9 @@ Done!
 <br>
 
 ## API
+Kingston's tools are also available in REST API form. Check it out 
+<a href="https://github.com/gholtzap/kingston-api" target="_blank">here</a>.
 
-This is where I host Kingston's flask API.
-<br>
-Simply run ``python api/run.py`` to start the local server.
-<br>
-From there, you can connect to the API via normal HTTP requests.
-<br>
-Please note that you will need your own Finnhub API key stored in ``.env`` to return data. This API is not for public use yet.
-
-### Endpoints:
-- List of all endpoints and cURL / Javascript examples can be found in ``api/usage.md``
 ## Strategies
 #### Description: <br>
 Here you can run strategies that I have formulated throughout the years. They are named accordingly. 

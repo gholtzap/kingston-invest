@@ -3,6 +3,8 @@ import os
 
 folders, images = ['static/images/'], []
 
+
+
 for folder in folders:
     for filename in os.listdir(folder):
         if filename.endswith('.png'):
