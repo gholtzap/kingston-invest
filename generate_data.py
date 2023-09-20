@@ -64,6 +64,6 @@ with open('tickers.json') as f:
 with open('tickers.json') as f:
     data = json.load(f)
 
-fetch_data_for_tickers(data['tickers'], 6)
+#fetch_data_for_tickers(data['tickers'], 6)
 fetch_data_for_tickers(data['tickers'], 12)
 remove_unwanted_tickers_files(data['tickers'], [6, 12])

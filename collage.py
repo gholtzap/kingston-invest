@@ -2,17 +2,29 @@ from PIL import Image, ImageOps
 import os
 
 folders, images = ['static/images/'], []
-
-
+border_order = {"cyan": 1, "orange": 2, "magenta": 3, "none": 4}
+image_data = []
 
 for folder in folders:
     for filename in os.listdir(folder):
         if filename.endswith('.png'):
             img = Image.open(os.path.join(folder, filename))
             if img is not None:
-                images.append(img)
-                print(f'Loaded image {filename} from {folder}')
+                border_color = "none"
+                for spine_color in border_order.keys():
+                    if spine_color in filename:
+                        border_color = spine_color
+                        break
+                image_data.append((img, border_order[border_color]))
+                print(f'Loaded image {filename} from {folder} with border {border_color}')
 
+if not image_data:
+    print('No images were loaded. Exiting.')
+    exit()
+
+# Sort images based on border order
+image_data.sort(key=lambda x: x[1])
+images = [img[0] for img in image_data]
 if not images:
     print('No images were loaded. Exiting.')
     exit()
@@ -32,7 +44,9 @@ new_image = Image.new('RGB', (total_width, total_height))
 for index, image in enumerate(images):
     x = image_width * (index % images_per_row)
     y = image_height * (index // images_per_row)
-    new_image.paste(image, (x, y))
+    
+    resized_image = image.resize((image_width, image_height))
+    new_image.paste(resized_image, (x, y))
 
 border_size = 200
 border_color = 'black'
