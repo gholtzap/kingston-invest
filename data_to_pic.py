@@ -37,8 +37,6 @@ def process_csv_files(csv_files):
             color = sns.color_palette("flare")[i % len(sns.color_palette("flare"))]
             fig, ax = plt.subplots(figsize=(11, 7))
             
-            
-            
             for idx, row in data.iterrows():
                 if row['highlight']:
                     ax.axvspan(idx - pd.Timedelta(days=1), idx + pd.Timedelta(days=1), color='magenta', alpha=0.3)
@@ -70,18 +68,14 @@ def process_csv_files(csv_files):
 
             # If a buy_price is provided for the ticker, draw the horizontal line
             if ticker in buy_details and "buy_price" in buy_details[ticker]:
-                ax.axhline(buy_details[ticker]["buy_price"], color='red', linestyle='--', linewidth=3, label="Buy Price")
-                
+                ax.axhline(buy_details[ticker]["buy_price"], color='orange', linestyle='--', linewidth=3, label="Buy Price")
+
             # If a buy_date is provided for the ticker, draw the vertical line
-            if ticker in buy_details and "buy_price" in buy_details[ticker]:
-                buy_price = buy_details[ticker]["buy_price"]
-                ax.axhline(buy_price, color='gold', linestyle='--', linewidth=3, label="Buy Price")
-                
-                # Get the date with the closest closing price to the buy_price
-                closest_date = data.iloc[(data['close'] - buy_price).abs().argsort()[:1]].index[0]
-                
-                ax.axvline(closest_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
+            if ticker in buy_details and "buy_date" in buy_details[ticker]:
+                buy_date = pd.to_datetime(buy_details[ticker]["buy_date"])
+                ax.axvline(buy_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
                 ax.legend(loc="upper left", fontsize=10, facecolor="black")
+
 
 
             # Setting other graph details
@@ -98,6 +92,12 @@ def process_csv_files(csv_files):
             
             
             modified_filename = f"{ticker}_{border_color}.png"
+            
+            existing_files = [f for f in os.listdir(images_dir) if f.startswith(f"{ticker}_") and f != modified_filename]
+            for existing_file in existing_files:
+                os.remove(os.path.join(images_dir, existing_file))
+                print(f"Removed outdated file: {existing_file}")
+
             
             plt.tight_layout()
             plt.savefig(os.path.join(images_dir, modified_filename), dpi=100)
