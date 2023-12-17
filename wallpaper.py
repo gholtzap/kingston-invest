@@ -1,6 +1,12 @@
 import ctypes
 import os
 import winreg
+import logging
+import coloredlogs
+
+# Set up logging with coloredlogs
+coloredlogs.install(level='INFO')
+logging.basicConfig(level=logging.INFO)
 
 SPI_SETDESKWALLPAPER = 20
 
@@ -16,6 +22,6 @@ if os.path.isfile(WALLPAPER_PATH):
     winreg.SetValueEx(key, "WallpaperStyle", 0, winreg.REG_SZ, wallpaper_style)
     ctypes.windll.user32.SystemParametersInfoW(
         SPI_SETDESKWALLPAPER, 0, WALLPAPER_PATH, 3)
-    print("Wallpaper set!")
+    logging.info("Wallpaper set!")
 else:
-    print("File not found: " + WALLPAPER_PATH)
+    logging.error("File not found: " + WALLPAPER_PATH)

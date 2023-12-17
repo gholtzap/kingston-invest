@@ -15,7 +15,10 @@
             "buy_price": 111.25,
             "buy_date": "03/31/2023"
         },
-        "ORCL": {},
+        "ORCL": {
+            "buy_price": 100.63,
+            "buy_date":"12/14/2023"
+        },
         "NVDA":{},
         "META": {},
         "INTU": {},
@@ -30,15 +33,27 @@
         },
         "PG": {},
         "JPM": {},
-        "BRK-B": {},
-        "CVS":{
-            "buy_price": 71.15714,
-            "buy_date": "08/07/2023"
-        },
         "CRM": {},
         "UNH": {},
         "NFLX": {},
-        "UBER":{}
+        "UBER":{},
+        "PLTR":{
+            "buy_price":19.58,
+            "buy_date":"11/21/2023"
+        },
+        "WMT":{
+            "buy_price":155.80,
+            "buy_date":"11/21/2023"
+        },
+        "PEP":{
+            "buy_price":167.14,
+            "buy_date":"12/07/2023"
+        },
+        "CCL":{
+            "buy_price":14.40,
+            "buy_date":"11/27/2023"
+        },
+        "NKE":{}
     }
 
 }

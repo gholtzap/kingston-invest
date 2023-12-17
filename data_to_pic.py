@@ -2,10 +2,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-import random
+import logging
+import coloredlogs
 import matplotlib.dates as mdates
-from quote import quote
 import json
+
+coloredlogs.install(level='INFO')
+logging.basicConfig(level=logging.INFO)
 
 sns.set_context("notebook")
 
@@ -72,9 +75,12 @@ def process_csv_files(csv_files):
 
             # If a buy_date is provided for the ticker, draw the vertical line
             if ticker in buy_details and "buy_date" in buy_details[ticker]:
-                buy_date = pd.to_datetime(buy_details[ticker]["buy_date"])
-                ax.axvline(buy_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
-                ax.legend(loc="upper left", fontsize=10, facecolor="black")
+                try:
+                    buy_date = pd.to_datetime(buy_details[ticker]["buy_date"])
+                    ax.axvline(buy_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
+                    ax.legend(loc="upper left", fontsize=10, facecolor="black")
+                except ValueError:
+                    print(f"Invalid date format for ticker {ticker}: {buy_details[ticker]['buy_date']}")
 
 
 
@@ -96,14 +102,12 @@ def process_csv_files(csv_files):
             existing_files = [f for f in os.listdir(images_dir) if f.startswith(f"{ticker}_") and f != modified_filename]
             for existing_file in existing_files:
                 os.remove(os.path.join(images_dir, existing_file))
-                print(f"Removed outdated file: {existing_file}")
+                logging.info(f"Removed outdated file: {existing_file}")
 
+            logging.info(f'Saved {modified_filename} to {images_dir}')
             
             plt.tight_layout()
             plt.savefig(os.path.join(images_dir, modified_filename), dpi=100)
-
-            print(f'Saved {modified_filename} to {images_dir}')
-            
             plt.close(fig)
 
 
@@ -119,10 +123,10 @@ def remove_unwanted_images():
         
         if ticker_from_filename not in tickers:
             os.remove(os.path.join(images_dir, filename))
-            print(f"Deleted image for {ticker_from_filename} as it does not exist in tickers.json")
+            logging.info(f"Deleted image for {ticker_from_filename} as it does not exist in tickers.json")
 
 
 csv_files = [f for f in os.listdir(f'data/stocks-12m/') if f.endswith('.csv')]
 process_csv_files(csv_files)
-remove_unwanted_images() 
+remove_unwanted_images()
 print("\n")

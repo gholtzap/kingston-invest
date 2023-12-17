@@ -1,5 +1,11 @@
 from PIL import Image, ImageOps
 import os
+import logging
+import coloredlogs
+
+# Set up logging with coloredlogs
+coloredlogs.install(level='INFO')
+logging.basicConfig(level=logging.INFO)
 
 folders, images = ['static/images/'], []
 border_order = {"cyan": 1, "orange": 2, "magenta": 3, "none": 4}
@@ -16,17 +22,17 @@ for folder in folders:
                         border_color = spine_color
                         break
                 image_data.append((img, border_order[border_color]))
-                print(f'Loaded image {filename} from {folder} with border {border_color}')
+                logging.info(f'Loaded image {filename} from {folder} with border {border_color}')
 
 if not image_data:
-    print('No images were loaded. Exiting.')
+    logging.warning('No images were loaded. Exiting.')
     exit()
 
 # Sort images based on border order
 image_data.sort(key=lambda x: x[1])
 images = [img[0] for img in image_data]
 if not images:
-    print('No images were loaded. Exiting.')
+    logging.warning('No images were loaded. Exiting.')
     exit()
 
 images_per_row = 4
@@ -53,3 +59,5 @@ border_color = 'black'
 new_image = ImageOps.expand(new_image, border=border_size, fill=border_color)
 
 new_image.save('collage.png')
+logging.info('Collage image saved as collage.png')
+print("\n")
