@@ -15,25 +15,18 @@
             "buy_price": 111.25,
             "buy_date": "03/31/2023"
         },
-        "ORCL": {
-            "buy_price": 100.63,
-            "buy_date":"12/14/2023"
-        },
+        "ORCL": {},
         "NVDA":{},
         "META": {},
         "INTU": {},
         "ADBE": {},
-        "TGT": {
-            "buy_price": 131.67,
-            "buy_date":"06/05/2023"
-        },
-        "CI": {
-            "buy_price": 268.85,
-            "buy_date":"6/20/2023"
-        },
+        "CI": {},
         "PG": {},
         "JPM": {},
-        "CRM": {},
+        "CRM": {
+            "buy_price": 216.72,
+            "buy_date":"5/31/2024"
+        },
         "UNH": {},
         "NFLX": {},
         "UBER":{},
@@ -49,11 +42,14 @@
             "buy_price":167.14,
             "buy_date":"12/07/2023"
         },
-        "CCL":{
-            "buy_price":14.40,
-            "buy_date":"11/27/2023"
+        "NKE":{
+            "buy_price":109.15,
+            "buy_date":"12/22/2023"
         },
-        "NKE":{}
+        "SWPPX":{
+            "buy_price":72.85,
+            "buy_date":"12/26/2023"
+        }
     }
 
 }

@@ -47,7 +47,7 @@ def remove_unwanted_tickers_files(tickers, months_list):
             ticker_filename = os.path.splitext(filename)[0]
             if ticker_filename not in tickers:
                 os.remove(os.path.join(dir_path, filename))
-                logging.info(f"Deleted data for {ticker_filename} as it does not exist in tickers.json")
+                logging.info(f"Deleted data for {ticker_filename} {months}m as it does not exist in tickers.json")
 
 
 def fetch_data_for_tickers(tickers, months):
@@ -61,5 +61,5 @@ with open('tickers.json') as f:
     data = json.load(f)
 
 fetch_data_for_tickers(data['tickers'], 12)
-remove_unwanted_tickers_files(data['tickers'], [6, 12])
+remove_unwanted_tickers_files(data['tickers'], [12,48])
 print("\n")

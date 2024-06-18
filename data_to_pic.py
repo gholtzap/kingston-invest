@@ -4,28 +4,34 @@ import seaborn as sns
 import os
 import logging
 import coloredlogs
-import matplotlib.dates as mdates
 import json
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 coloredlogs.install(level='INFO')
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level='INFO')
 
 sns.set_context("notebook")
 
-def process_csv_files(csv_files):
+def process_csv_files(months=12):
     images_dir = 'static/images/'
+    csv_files = [f for f in os.listdir(f'data/stocks-{months}m/') if f.endswith('.csv')]
     os.makedirs(images_dir, exist_ok=True)
 
-    # Read the tickers and their buy details (if provided)
     with open('tickers.json') as f:
         tickers_data = json.load(f)
         buy_details = tickers_data['tickers']
 
+    highlighted_stocks = {"cyan": [], "orange": [], "magenta": []}
+    stock_performance = {}
+
     for i, csv_file in enumerate(csv_files):
         ticker = csv_file[:-4]  # Extract the ticker name from the filename
         
-        
-        data = pd.read_csv(f'data/stocks-12m/{csv_file}')
+        data = pd.read_csv(f'data/stocks-{months}m/{csv_file}')
         data['date'] = pd.to_datetime(data['date'])
         data.set_index('date', inplace=True)
         data.sort_index(inplace=True)
@@ -36,44 +42,55 @@ def process_csv_files(csv_files):
         # Check if the current day's price is less than 90% of the price from 7 days ago
         data['highlight'] = data['close'] < 0.9 * data['rolling_7d_min'].shift(7)
 
+        latest_price = data['close'].iloc[-1]
+        buy_price = buy_details.get(ticker, {}).get('buy_price', None)
+        buy_date = pd.to_datetime(buy_details.get(ticker, {}).get('buy_date', ''), errors='coerce')
+
+        # Check if today's price triggers a buy highlight (magenta)
+        if data['highlight'].iloc[-1]:
+            highlighted_stocks['magenta'].append(ticker)
+
+        # Check if the latest price has increased 30% from the buy price
+        if buy_price and latest_price >= 1.3 * buy_price:
+            highlighted_stocks['orange'].append(ticker)
+
+        if ticker in buy_details:
+            stock_performance[ticker] = calculate_performance(data, buy_date, buy_price)
+
         with plt.style.context('dark_background'):
             color = sns.color_palette("flare")[i % len(sns.color_palette("flare"))]
             fig, ax = plt.subplots(figsize=(11, 7))
             
             for idx, row in data.iterrows():
                 if row['highlight']:
-                    ax.axvspan(idx - pd.Timedelta(days=1), idx + pd.Timedelta(days=1), color='magenta', alpha=0.3)
-    
+                    ax.axvspan(idx - pd.Timedelta(days=1), idx + pd.Timedelta(days=1), 0.5, color='magenta', alpha=0.3)
     
             border_color = "none"
-        
             
-            if data['highlight'].any() and (ticker in buy_details and "buy_price" in buy_details[ticker]):
+            if data['highlight'].iloc[-1] and (ticker in buy_details and "buy_price" in buy_details[ticker]):
                 for spine in ax.spines.values():
                     spine.set_linewidth(2)
                     spine.set_edgecolor('cyan')
                 border_color = "cyan"
+                highlighted_stocks["cyan"].append(ticker)
             elif ticker in buy_details and "buy_price" in buy_details[ticker]:
                 for spine in ax.spines.values():
                     spine.set_linewidth(2)
                     spine.set_edgecolor('orange')
                 border_color = "orange"
-            elif data['highlight'].any():
+            elif data['highlight'].iloc[-1]:
                 for spine in ax.spines.values():
                     spine.set_linewidth(2)
                     spine.set_edgecolor('magenta')
                 border_color = "magenta"
-            
 
             # Plotting the stock data
             ax.plot(data['close'], color=color, linewidth=2.0)
             ax.fill_between(data.index, data['close'], color=color, alpha=0.1)
 
-            # If a buy_price is provided for the ticker, draw the horizontal line
             if ticker in buy_details and "buy_price" in buy_details[ticker]:
                 ax.axhline(buy_details[ticker]["buy_price"], color='orange', linestyle='--', linewidth=3, label="Buy Price")
 
-            # If a buy_date is provided for the ticker, draw the vertical line
             if ticker in buy_details and "buy_date" in buy_details[ticker]:
                 try:
                     buy_date = pd.to_datetime(buy_details[ticker]["buy_date"])
@@ -82,9 +99,6 @@ def process_csv_files(csv_files):
                 except ValueError:
                     print(f"Invalid date format for ticker {ticker}: {buy_details[ticker]['buy_date']}")
 
-
-
-            # Setting other graph details
             min_close = data['close'].min()
             max_close = data['close'].max()
             padding = (max_close - min_close) * 0.1
@@ -95,10 +109,8 @@ def process_csv_files(csv_files):
             ax.set_ylabel('Closing Price', color='white')
             ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
             ax.tick_params(colors='white')
-            
-            
-            modified_filename = f"{ticker}_{border_color}.png"
-            
+
+            modified_filename = f"{ticker}_{border_color}_{months}.png"
             existing_files = [f for f in os.listdir(images_dir) if f.startswith(f"{ticker}_") and f != modified_filename]
             for existing_file in existing_files:
                 os.remove(os.path.join(images_dir, existing_file))
@@ -110,6 +122,55 @@ def process_csv_files(csv_files):
             plt.savefig(os.path.join(images_dir, modified_filename), dpi=100)
             plt.close(fig)
 
+    # Export highlighted stocks and performance data to a JSON file
+    with open('highlighted_stocks.json', 'w') as json_file:
+        json.dump({'highlighted_stocks': highlighted_stocks, 'stock_performance': stock_performance}, json_file)
+
+    return highlighted_stocks
+
+def calculate_performance(data, buy_date, buy_price):
+    performance = {}
+    today = data.index[-1]
+
+    # Calculate 1d, 5d, 1mo, 6mo, 12mo performance
+    performance['1d'] = calculate_return(data, data.index[-2], today)
+    performance['5d'] = calculate_return(data, get_trading_date(data, today, -5), today)
+    performance['1mo'] = calculate_return(data, get_trading_date(data, today, -21), today)  # Approx 21 trading days in a month
+    performance['6mo'] = calculate_return(data, get_trading_date(data, today, -126), today)  # Approx 126 trading days in 6 months
+    performance['12mo'] = calculate_return(data, get_trading_date(data, today, -252), today)  # Approx 252 trading days in a year
+
+    # Calculate performance since purchase
+    if pd.notnull(buy_date) and buy_date in data.index:
+        performance['since_buy'] = calculate_return(data, buy_date, today)
+    elif buy_price is not None:
+        start_price = buy_price
+        end_price = data['close'].iloc[-1]
+        performance['since_buy'] = f"{((end_price - start_price) / start_price) * 100:.2f}%"
+    else:
+        performance['since_buy'] = 'n/a'
+    
+    return performance
+
+def get_trading_date(data, end_date, offset):
+    # Adjust the end_date to account for non-trading days
+    trading_dates = data.index
+    try:
+        position = trading_dates.get_loc(end_date)
+    except KeyError:
+        position = trading_dates.get_loc(end_date, method='pad')
+    new_position = position + offset
+    if new_position < 0:
+        return trading_dates[0]
+    elif new_position >= len(trading_dates):
+        return None
+    return trading_dates[new_position]
+
+def calculate_return(data, start_date, end_date):
+    if start_date is None or end_date is None:
+        return 'n/a'
+    start_price = data.loc[start_date]['close']
+    end_price = data.loc[end_date]['close']
+    return f"{((end_price - start_price) / start_price) * 100:.2f}%"
 
 def remove_unwanted_images():
     images_dir = 'static/images/'
@@ -125,8 +186,6 @@ def remove_unwanted_images():
             os.remove(os.path.join(images_dir, filename))
             logging.info(f"Deleted image for {ticker_from_filename} as it does not exist in tickers.json")
 
-
-csv_files = [f for f in os.listdir(f'data/stocks-12m/') if f.endswith('.csv')]
-process_csv_files(csv_files)
+# Process CSV files and remove unwanted images
+process_csv_files()
 remove_unwanted_images()
-print("\n")

@@ -8,3 +8,4 @@ python generate_data.py
 python data_to_pic.py
 python collage.py
 python wallpaper.py
+python email_summary.py
