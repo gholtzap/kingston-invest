@@ -1,0 +1,8 @@
+{
+    "initial_capital": 100000.0,
+    "position_size_ratio": 0.5,
+    "dip_percentage_min": "0.5%",
+    "dip_percentage_max": "2%",
+    "rise_percentage": "2%",
+    "data_directory": "C:\\Users\\Gavin\\dev\\Kingston\\kingston-invest\\data\\anubis\\stocks-48m"
+}

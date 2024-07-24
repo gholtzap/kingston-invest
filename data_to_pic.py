@@ -21,7 +21,7 @@ def process_csv_files(months=12):
     csv_files = [f for f in os.listdir(f'data/stocks-{months}m/') if f.endswith('.csv')]
     os.makedirs(images_dir, exist_ok=True)
 
-    with open('tickers.json') as f:
+    with open('tickers_amun.json') as f:
         tickers_data = json.load(f)
         buy_details = tickers_data['tickers']
 
@@ -175,7 +175,7 @@ def calculate_return(data, start_date, end_date):
 def remove_unwanted_images():
     images_dir = 'static/images/'
 
-    with open('tickers.json') as f:
+    with open('tickers_amun.json') as f:
         tickers_data = json.load(f)
         tickers = list(tickers_data['tickers'].keys())
 
@@ -184,7 +184,7 @@ def remove_unwanted_images():
         
         if ticker_from_filename not in tickers:
             os.remove(os.path.join(images_dir, filename))
-            logging.info(f"Deleted image for {ticker_from_filename} as it does not exist in tickers.json")
+            logging.info(f"Deleted image for {ticker_from_filename} as it does not exist in tickers_amun.json")
 
 # Process CSV files and remove unwanted images
 process_csv_files()

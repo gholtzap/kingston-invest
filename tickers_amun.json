@@ -1,0 +1,59 @@
+{
+    "tickers": {
+        "AAPL": {
+            "buy_price": 178.97,
+            "buy_date":"08/21/2023"
+        },
+        "TSLA": {},
+        "MSFT": {},
+        "AMZN": {
+            "buy_price": 120.08625,
+            "buy_date": "06/05/2023"
+
+        },
+        "GOOG": {
+            "buy_price": 111.25,
+            "buy_date": "03/31/2023"
+        },
+        "ORCL": {},
+        "NVDA":{},
+        "META": {},
+        "INTU": {},
+        "ADBE": {},
+        "CI": {},
+        "PG": {},
+        "JPM": {},
+        "CRM": {
+            "buy_price": 216.72,
+            "buy_date":"5/31/2024"
+        },
+        "UNH": {},
+        "NFLX": {},
+        "UBER":{},
+        "PLTR":{},
+        "WMT":{
+            "buy_price":155.80,
+            "buy_date":"11/21/2023"
+        },
+        "PEP":{
+            "buy_price":167.14,
+            "buy_date":"12/07/2023"
+        },
+        "NKE":{
+            "buy_price":109.15,
+            "buy_date":"12/22/2023"
+        },
+        "SWPPX":{
+            "buy_price":72.85,
+            "buy_date":"12/26/2023"
+        }
+    }, "anubis":{
+        "KO": {},
+        "INTC": {},
+        "USB": {},
+        "PEP": {},
+        "WFC": {},
+        "C": {}
+    }
+
+}
