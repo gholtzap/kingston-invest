@@ -34,6 +34,23 @@ def send_email(summary, performance, recipient_email, preview=False):
 
     sorted_tickers = sorted(overall_performance, key=overall_performance.get, reverse=True)
 
+    # Find the stock closest to a 'buy'
+    closest_to_buy = None
+    closest_dip_needed = float('inf')
+    for ticker, perf in performance.items():
+        if perf['5d'] != 'n/a':
+            five_day_perf = float(perf['5d'].strip('%'))
+            if five_day_perf > -10:
+                dip_needed = -10 - five_day_perf
+                if 0 < dip_needed < closest_dip_needed:
+                    closest_dip_needed = dip_needed
+                    closest_to_buy = ticker
+
+    if closest_to_buy is None:
+        closest_to_buy_message = "None needs to dip more to reach a 10% dip in the past week."
+    else:
+        closest_to_buy_message = f"{closest_to_buy} needs to dip {closest_dip_needed:.2f}% more to reach a 10% dip in the past week."
+
     # Generate the current date string
     current_date = datetime.now().strftime("%m/%d/%y")
 
@@ -139,6 +156,8 @@ def send_email(summary, performance, recipient_email, preview=False):
                                                     {', '.join(summary['magenta']) if summary['magenta'] else 'None'}</p>
                                                     <p><strong>Sells today:</strong><br>
                                                     {', '.join(summary['orange']) if summary['orange'] else 'None'}</p>
+                                                    <p><strong>Closest to buy:</strong><br>
+                                                    {closest_to_buy_message}</p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -268,8 +287,5 @@ if __name__ == "__main__":
         highlighted_stocks = data['highlighted_stocks']
         stock_performance = data['stock_performance']
     
-    # Call send_email with preview=True to generate a preview HTML file
-    #send_email(highlighted_stocks, stock_performance, recipient_email, preview=True)
-
     # To send the email, change preview to False
     send_email(highlighted_stocks, stock_performance, recipient_email, preview=False)

@@ -18,7 +18,7 @@ sns.set_context("notebook")
 
 def process_csv_files(months=12):
     images_dir = 'static/images/'
-    csv_files = [f for f in os.listdir(f'data/stocks-{months}m/') if f.endswith('.csv')]
+    csv_files = [f for f in os.listdir(f'data/amun/stocks-{months}m/') if f.endswith('.csv')]
     os.makedirs(images_dir, exist_ok=True)
 
     with open('tickers_amun.json') as f:
@@ -27,11 +27,12 @@ def process_csv_files(months=12):
 
     highlighted_stocks = {"cyan": [], "orange": [], "magenta": []}
     stock_performance = {}
+    highlighted_stocks_data = {}
 
     for i, csv_file in enumerate(csv_files):
         ticker = csv_file[:-4]  # Extract the ticker name from the filename
         
-        data = pd.read_csv(f'data/stocks-{months}m/{csv_file}')
+        data = pd.read_csv(f'data/amun/stocks-{months}m/{csv_file}')
         data['date'] = pd.to_datetime(data['date'])
         data.set_index('date', inplace=True)
         data.sort_index(inplace=True)
@@ -46,9 +47,17 @@ def process_csv_files(months=12):
         buy_price = buy_details.get(ticker, {}).get('buy_price', None)
         buy_date = pd.to_datetime(buy_details.get(ticker, {}).get('buy_date', ''), errors='coerce')
 
-        # Check if today's price triggers a buy highlight (magenta)
-        if data['highlight'].iloc[-1]:
-            highlighted_stocks['magenta'].append(ticker)
+        # Initialize magenta and cyan dates and prices for each ticker
+        if ticker not in highlighted_stocks_data:
+            highlighted_stocks_data[ticker] = {'magenta_dates': [], 'magenta_prices': [], 'cyan_dates': [], 'cyan_prices': []}
+
+        # Check for magenta highlight throughout the data
+        for idx, row in data.iterrows():
+            if row['highlight']:
+                highlighted_stocks_data[ticker]['magenta_dates'].append(idx.strftime('%Y-%m-%d'))
+                highlighted_stocks_data[ticker]['magenta_prices'].append(row['close'])
+                if idx == data.index[-1]:
+                    highlighted_stocks['magenta'].append(ticker)
 
         # Check if the latest price has increased 30% from the buy price
         if buy_price and latest_price >= 1.3 * buy_price:
@@ -63,7 +72,7 @@ def process_csv_files(months=12):
             
             for idx, row in data.iterrows():
                 if row['highlight']:
-                    ax.axvspan(idx - pd.Timedelta(days=1), idx + pd.Timedelta(days=1), 0.5, color='magenta', alpha=0.3)
+                    ax.axvspan(idx - pd.Timedelta(days=1), idx + pd.Timedelta(days=1), color='magenta', alpha=0.3)
     
             border_color = "none"
             
@@ -89,15 +98,25 @@ def process_csv_files(months=12):
             ax.fill_between(data.index, data['close'], color=color, alpha=0.1)
 
             if ticker in buy_details and "buy_price" in buy_details[ticker]:
-                ax.axhline(buy_details[ticker]["buy_price"], color='orange', linestyle='--', linewidth=3, label="Buy Price")
+                ax.axhline(buy_details[ticker]["buy_price"], color='orange', linestyle='--', linewidth=3)
 
             if ticker in buy_details and "buy_date" in buy_details[ticker]:
                 try:
                     buy_date = pd.to_datetime(buy_details[ticker]["buy_date"])
-                    ax.axvline(buy_date, color='teal', linestyle='--', linewidth=3, label="Buy Date")
-                    ax.legend(loc="upper left", fontsize=10, facecolor="black")
+                    ax.axvline(buy_date, color='teal', linestyle='--', linewidth=3)
                 except ValueError:
-                    print(f"Invalid date format for ticker {ticker}: {buy_details[ticker]['buy_date']}")
+                    logging.error(f"Invalid date format for ticker {ticker}: {buy_details[ticker]['buy_date']}")
+
+            # Check for cyan highlight based on magenta price increase by 30%
+            for magenta_date_str, magenta_price in zip(highlighted_stocks_data[ticker]['magenta_dates'], highlighted_stocks_data[ticker]['magenta_prices']):
+                magenta_date = pd.to_datetime(magenta_date_str)
+                future_data = data.loc[magenta_date:]
+                for future_idx, future_row in future_data.iterrows():
+                    if future_row['close'] >= 1.3 * magenta_price:
+                        highlighted_stocks_data[ticker]['cyan_dates'].append(future_idx.strftime('%Y-%m-%d'))
+                        highlighted_stocks_data[ticker]['cyan_prices'].append(future_row['close'])
+                        ax.axvline(future_idx, color='cyan', linestyle='-', linewidth=3)
+                        break
 
             min_close = data['close'].min()
             max_close = data['close'].max()
@@ -124,7 +143,7 @@ def process_csv_files(months=12):
 
     # Export highlighted stocks and performance data to a JSON file
     with open('highlighted_stocks.json', 'w') as json_file:
-        json.dump({'highlighted_stocks': highlighted_stocks, 'stock_performance': stock_performance}, json_file)
+        json.dump({'highlighted_stocks': highlighted_stocks, 'stock_performance': stock_performance, 'highlighted_stocks_data': highlighted_stocks_data}, json_file)
 
     return highlighted_stocks
 
@@ -149,6 +168,7 @@ def calculate_performance(data, buy_date, buy_price):
     else:
         performance['since_buy'] = 'n/a'
     
+    logging.info(f"Performance for {data.index[-1]}: {performance}")
     return performance
 
 def get_trading_date(data, end_date, offset):
